@@ -43,4 +43,27 @@ plt.show()
 err = calculator.error_cuadratico_medio(analytical_y,leapfrog_y)
 print("leapfrog error = " + str(err))
 
+gear_register_x , gear_register_y = scanner.scanxy('gear_register.txt')
+
+plt.title('Gear Error')
+plt.xlabel(' - ')
+plt.ylabel(' - ')
+plt.plot(gear_register_x,gear_register_y)    
+plt.show()
+
+beeman_register_x , beeman_register_y = scanner.scanxy('beeman_register.txt')
+
+plt.title('Beeman Error')
+plt.xlabel(' - ')
+plt.ylabel(' - ')
+plt.plot(beeman_register_x,beeman_register_y)    
+plt.show()
+
+leapfrog_register_x , leapfrog_register_y = scanner.scanxy('leapfrog_register.txt')
+
+plt.title('Leapfrog Error')
+plt.xlabel(' - ')
+plt.ylabel(' - ')
+plt.plot(leapfrog_register_x,leapfrog_register_y)    
+plt.show()
 
