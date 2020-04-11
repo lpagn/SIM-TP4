@@ -58,6 +58,16 @@ def linearerror(x,y,c_start,c_end,c_step):
     plt.plot(c_list,error_list)
     #plt.show()
         
+def error_cuadratico_medio(analytical,other):
+    max_i = len(analytical)
+    max_j = len(other)
+    n = min(max_i,max_j)
+    i = 0
+    sum = 0
+    while i < n:
+        sum += pow((float(other[i]) - float(analytical[i])),2)
+        i += 1
+    return sum / n
 
 
 

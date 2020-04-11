@@ -30,8 +30,6 @@ public class LeapFrog extends Integrator{
 			rk = r(rk,vk);
 			vauxlast = vaux;
 			
-			error = Math.pow((solution(dt) - rk),2);
-			
 			ret.append(String.format("%.4f %.5f\n",dt,rk));
 			
 			dt+=step;

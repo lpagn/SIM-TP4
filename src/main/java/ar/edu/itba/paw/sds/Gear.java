@@ -48,14 +48,15 @@ public class Gear extends Integrator {
 	public String stepGear () {
 		StringBuilder ret = new StringBuilder(" ");
 		double dt = 0;
+		
+		r = r0;
+		r1 = v0;
+		r2 = -1*(k/m)*(r-r0);
+		r3 = -1*(k/m)*r1;
+		r4 = Math.pow((k/m),2)*(r-r0);
+		r5 = Math.pow((k/m),2)*r1;
+		
 		while(dt<tf) {
-				
-			r = r0;
-			r1 = v0;
-			r2 = -1*(k/m)*(r-r0);
-			r3 = -1*(k/m)*r1;
-			r4 = Math.pow((k/m),2)*(r-r0);
-			r5 = Math.pow((k/m),2)*r1;
 				
 			rlist[0] = r;
 			rlist[1] = r1;
@@ -89,6 +90,8 @@ public class Gear extends Integrator {
 			rp2c = correct(2);
 			rp1c = correct(1);
 			rpc  = correct(0);
+						
+			ret.append(String.format("%.4f %.5f\n",dt,r));
 			
 			r  = rpc;
 			r1 = rp1c;
@@ -96,10 +99,6 @@ public class Gear extends Integrator {
 			r3 = rp3c;
 			r4 = rp4c;
 			r5 = rp5c;
-			
-			error = Math.pow((solution(dt) - r),2);
-			
-			ret.append(String.format("%.4f %.5f\n",dt,r));
 			
 			dt+=step;
 			

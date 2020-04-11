@@ -18,12 +18,6 @@ public class App
     	
     	String beeman = b.stepBeeman();
     	
-    	
-    	System.out.println(b.r0);
-    	System.out.println(b.v0);
-    	System.out.println(b.f(b.r0,b.v0));
-    	System.out.println(b.step);
-    	
     	write("beeman.txt",beeman);
     	
     	LeapFrog l = new LeapFrog();

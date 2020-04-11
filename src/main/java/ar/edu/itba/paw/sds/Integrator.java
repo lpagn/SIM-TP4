@@ -43,6 +43,10 @@ public class Integrator {
 		return -1*k*r - gamma*v;
 	}
 	
+	public double a(double r , double v) {
+		return f(r,v) / m;
+	}
+	
 }
 
 

@@ -21,8 +21,9 @@ public class Euler extends Integrator {
 		while(dt<=tf) {
 			double rknext = r(rk,vk);
 			double vknext = v(rk,vk);
-			error = Math.pow((solution(dt) - rk),2);
+
 			ret.append(String.format("%.4f %.5f\n",dt,rk));
+			
 			dt+=step;
 			rk = rknext;
 			vk = vknext;
