@@ -62,10 +62,11 @@ def error_cuadratico_medio(analytical,other):
     max_i = len(analytical)
     max_j = len(other)
     n = min(max_i,max_j)
+    print(n)
     i = 0
     sum = 0
     while i < n:
-        sum += pow((float(other[i]) - float(analytical[i])),2)
+        sum += pow((float(analytical[i])-float(other[i])),2)
         i += 1
     return sum / n
 

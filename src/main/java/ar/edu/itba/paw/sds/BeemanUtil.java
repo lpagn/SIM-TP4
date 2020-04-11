@@ -11,7 +11,7 @@ public class BeemanUtil extends Integrator {
     private double aknext;
     private boolean initial;    
     
-    public BeemanUtil(double step, double v0, double r0) {
+    public BeemanUtil(double step, double r0, double v0) {
         vk=v0;
         rk=r0;
         ak= a(r0,v0);

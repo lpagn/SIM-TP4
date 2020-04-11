@@ -10,7 +10,7 @@ public class Integrator {
 	//variables
 	double r0 = 1; //[m]
 	double v0 = -1*A*gamma/(2*m);//[m/s]
-	double step = 0.00001;//[s]
+	double step = 0.001;//[s]
 	
 	public double getStep() {
 		return step;

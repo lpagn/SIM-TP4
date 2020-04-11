@@ -10,8 +10,8 @@ public class Beeman extends Integrator {
 		StringBuilder ret = new StringBuilder("");
 		BeemanUtil b = new BeemanUtil(step,r0,v0);
 		while(b.dt < tf) {
-			b.next();
-			ret.append(String.format("%.4f %.5f\n",b.dt,b.rk));
+			double rk = b.next().a;
+			ret.append(String.format("%.4f %.5f\n",b.dt,rk));
 		}
 		return ret.toString();
 	}
