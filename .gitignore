@@ -4,3 +4,6 @@
 .settings/a
 .pydevproject
 *.pyc
+*.iml
+*.idea
+
