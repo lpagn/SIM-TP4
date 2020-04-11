@@ -8,7 +8,7 @@ public class Gear extends Integrator {
 	
 	//A partir del step = 0.00001 comienza a dar resultados razonables
 	
-	double step = 0.00001;
+	//double step = 0.00001;
 	
 	double alfa0 = 3/16;
 	double alfa1 = 251/360;
