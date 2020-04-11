@@ -6,6 +6,10 @@ public class Gear extends Integrator {
 		super();
 	}
 	
+	//A partir del step = 0.00001 comienza a dar resultados razonables
+	
+	double step = 0.00001;
+	
 	double alfa0 = 3/16;
 	double alfa1 = 251/360;
 	double alfa2 = 1;
@@ -48,7 +52,6 @@ public class Gear extends Integrator {
 	public String stepGear () {
 		StringBuilder ret = new StringBuilder(" ");
 		double dt = 0;
-		
 		r = r0;
 		r1 = v0;
 		r2 = -1*(k/m)*(r-r0);
