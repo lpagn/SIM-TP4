@@ -8,7 +8,7 @@ public class Gear extends Integrator {
 	
 	//A partir del step = 0.00001 comienza a dar resultados razonables
 	
-	double step = 0.00001;
+	//double step = 0.00001;
 	
 	double alfa0 = 3/16;
 	double alfa1 = 251/360;
@@ -51,7 +51,13 @@ public class Gear extends Integrator {
 	
 	public String stepGear () {
 		StringBuilder ret = new StringBuilder(" ");
-		double dt = 0;
+		GearUtil g = new GearUtil(step,r0,v0);
+		while(g.dt<tf) {
+			g.apply();
+			ret.append(String.format("%.4f %.5f\n",g.dt,g.r.get(0)));
+		}
+		
+		/*
 		r = r0;
 		r1 = v0;
 		r2 = -1*(k/m)*(r-r0);
@@ -106,6 +112,7 @@ public class Gear extends Integrator {
 			dt+=step;
 			
 		}
+		*/
 		return ret.toString();
 		
 	}
