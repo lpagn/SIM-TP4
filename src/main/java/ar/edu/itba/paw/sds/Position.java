@@ -11,6 +11,6 @@ public class Position {
 
     @Override
     public String toString() {
-        return x +" "+ y;
+        return x/1E7 +" "+ y/1E7;
     }
 }
