@@ -51,7 +51,13 @@ public class Gear extends Integrator {
 	
 	public String stepGear () {
 		StringBuilder ret = new StringBuilder(" ");
-		double dt = 0;
+		GearUtil g = new GearUtil(step,r0,v0);
+		while(g.dt<tf) {
+			g.apply();
+			ret.append(String.format("%.4f %.5f\n",g.dt,g.r.get(0)));
+		}
+		
+		/*
 		r = r0;
 		r1 = v0;
 		r2 = -1*(k/m)*(r-r0);
@@ -106,6 +112,7 @@ public class Gear extends Integrator {
 			dt+=step;
 			
 		}
+		*/
 		return ret.toString();
 		
 	}

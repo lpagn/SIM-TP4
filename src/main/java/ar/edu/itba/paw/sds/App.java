@@ -32,12 +32,6 @@ public class App
         
         write("gear.txt",gear);
         
-        Euler e = new Euler();
-        
-        String euler = e.stepEuler();
-        
-        write("euler.txt",euler);
-
     }
     
     private static void write (String filename , String value) {
