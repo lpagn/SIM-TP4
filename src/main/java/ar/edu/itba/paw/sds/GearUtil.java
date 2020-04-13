@@ -24,7 +24,7 @@ public class GearUtil {
         this.f = f;
     }
     
-    public MultipleValueReturn<Double,Double> apply() {
+    public MultipleValueReturn<Double,Double> next() {
         ArrayList<Double> rP = new ArrayList<>();
         rP.add(rpq(0));
         rP.add(rpq(1));

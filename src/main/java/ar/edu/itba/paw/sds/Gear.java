@@ -56,7 +56,7 @@ public class Gear extends Integrator {
 		StringBuilder ret = new StringBuilder(" ");
 		GearUtil g = new GearUtil(step,f.r0,f.v0,f);
 		while(g.dt<tf) {
-			g.apply();
+			g.next();
 			ret.append(String.format("%.4f %.5f\n",g.dt,g.r.get(0)));
 		}
 		
