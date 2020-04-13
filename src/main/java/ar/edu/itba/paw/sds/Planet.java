@@ -10,7 +10,7 @@ public class Planet {
     double gravity;
 
     Position position;
-    Velocity v0;
+    Velocity v;
 
     public Planet(String name, double mass, double radius, double gravity, Position start, Velocity v0) {
         this.name = name;
@@ -18,7 +18,7 @@ public class Planet {
         this.radius = radius;
         this.gravity = gravity;
         this.position = start;
-        this.v0 = v0;
+        this.v = v0;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class Planet {
                 ", radius=" + radius +
                 ", gravity=" + gravity +
                 ", start=" + position +
-                ", v0=" + v0 +
+                ", v0=" + v +
                 '}';
     }
 
@@ -66,5 +66,21 @@ public class Planet {
 
     public void move(Planet [] systme){
 
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public Velocity getV() {
+        return v;
+    }
+
+    public void setV(Velocity v) {
+        this.v = v;
     }
 }

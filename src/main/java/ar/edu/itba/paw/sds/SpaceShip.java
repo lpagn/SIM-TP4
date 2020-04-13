@@ -14,4 +14,8 @@ public class SpaceShip {
     public String toOvito(){
         return position.toString() +" "+radio;
     }
+
+    public boolean crash(Planet mars) {
+        return Math.sqrt(Math.pow(mars.position.x -this.position.x,2) + Math.pow(mars.position.y -this.position.y,2)) <= mars.radius;
+    }
 }
