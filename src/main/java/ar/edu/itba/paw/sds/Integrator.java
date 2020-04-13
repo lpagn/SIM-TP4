@@ -1,16 +1,16 @@
 package ar.edu.itba.paw.sds;
 
 public class Integrator {
-	//parameters
-	double m = 70; //[kg]
-	double k = 100000;//[N/m]
-	double gamma = 100;//[kg/s]
+	
 	double tf = 5;//[s]
-	double A = 1;
-	//variables
-	double r0 = 1; //[m]
-	double v0 = -1*A*gamma/(2*m);//[m/s]
-	double step = 0.0000001;//[s]
+	
+	double step = 0.00001;//[s]
+	
+	Force force = new AmortigForce();
+	
+	double r0;
+	double v0;
+	double m;
 	
 	public double getStep() {
 		return step;
@@ -22,10 +22,12 @@ public class Integrator {
 
 	double error = 0;
 	
-	public Integrator() {}
-		
+	public Integrator(Force f) {
+		this.force = f;
+	}
+	
 	public double solution(double t) {
-		return A*Math.exp(-1*(gamma/(2*m))*t)*Math.cos((Math.sqrt((k/m)-(gamma*gamma/(4*m*m))))*t);
+		return force.solution(t);
 	}
 	
 	public String stepSolution() {
@@ -40,11 +42,11 @@ public class Integrator {
 	}
 	
 	public double f(double r , double v) {
-		return -1*k*r - gamma*v;
+		return force.force(r,v);
 	}
 	
 	public double a(double r , double v) {
-		return f(r,v) / m;
+		return force.a(r,v);
 	}
 	
 }

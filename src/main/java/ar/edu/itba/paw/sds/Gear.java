@@ -2,8 +2,11 @@ package ar.edu.itba.paw.sds;
 
 public class Gear extends Integrator {
 	
-	public Gear() {
-		super();
+	AmortigForce f;
+	
+	public Gear(AmortigForce f) {
+		super(f);
+		this.f = f;
 	}
 	
 	//A partir del step = 0.00001 comienza a dar resultados razonables
@@ -17,7 +20,7 @@ public class Gear extends Integrator {
 	double alfa4 = 1/6;
 	double alfa5 = 1/60;
 	
-	double[] alfalist = {alfa0,alfa1,alfa2,alfa3,alfa4,alfa5};
+	double[] alfalist = {alfa0,alfa1,alfa2,alfa3,alfa4,alfa5}; // estos double no se estan tomando bien
 	
 	double r = r0;
 	double r1 = v0;
@@ -51,7 +54,7 @@ public class Gear extends Integrator {
 	
 	public String stepGear () {
 		StringBuilder ret = new StringBuilder(" ");
-		GearUtil g = new GearUtil(step,r0,v0);
+		GearUtil g = new GearUtil(step,f.r0,f.v0,f);
 		while(g.dt<tf) {
 			g.apply();
 			ret.append(String.format("%.4f %.5f\n",g.dt,g.r.get(0)));

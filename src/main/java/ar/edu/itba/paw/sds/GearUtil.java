@@ -1,25 +1,27 @@
 package ar.edu.itba.paw.sds;
 import java.util.ArrayList;
 
-public class GearUtil extends Integrator {
+public class GearUtil {
 	
 	private static final int size = 6;
 	
     private double step;
     public double dt = 0;
     public ArrayList<Double> r;
+    public Force f;
     
     private static double[] alfalist = {3.0/16,251.0/360,1,11.0/18,1.0/6,1.0/60};
     
-    public GearUtil(double step , double initialPosition ,double initialVelocity) {
+    public GearUtil(double step , double r0 ,double v0 , Force f) {
         this.step = step;
         r = new ArrayList<>();
-        r.add(initialPosition);
-        r.add(initialVelocity);
-        r.add(a(r.get(0),r.get(1)));
-        r.add(a(r.get(1),r.get(2)));
-        r.add(a(r.get(2),r.get(3)));
-        r.add(a(r.get(3),r.get(4)));
+        r.add(r0);
+        r.add(v0);
+        r.add(f.a(r.get(0),r.get(1)));
+        r.add(f.a(r.get(1),r.get(2)));
+        r.add(f.a(r.get(2),r.get(3)));
+        r.add(f.a(r.get(3),r.get(4)));
+        this.f = f;
     }
     
     public MultipleValueReturn<Double,Double> apply() {
@@ -30,7 +32,7 @@ public class GearUtil extends Integrator {
         rP.add(rpq(3));
         rP.add(rpq(4));
         rP.add(rpq(5));
-        double dR2 = (a(rP.get(0),rP.get(1))-rP.get(2))*Math.pow(step,2)/2;
+        double dR2 = (f.a(rP.get(0),rP.get(1))-rP.get(2))*Math.pow(step,2)/2;
         r.set(0,rpc(0, rP.get(0), dR2));
         r.set(1,rpc(1, rP.get(1), dR2));
         r.set(2,rpc(2, rP.get(2), dR2));

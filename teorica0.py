@@ -61,7 +61,7 @@ def linearerror(x,y,c_start,c_end,c_step):
 def error_cuadratico_medio(analytical,other):
     max_i = len(analytical)
     max_j = len(other)
-    n = min(max_i,max_j)
+    n = min(max_i,max_j) #OJO ACA , dividir
     print(n)
     i = 0
     sum = 0

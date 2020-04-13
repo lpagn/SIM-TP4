@@ -1,12 +1,15 @@
 package ar.edu.itba.paw.sds;
 
 public class LeapFrog extends Integrator{
-	public LeapFrog() {
-		super();
+	
+	AmortigForce f = new AmortigForce();
+	
+	public LeapFrog(AmortigForce f) {
+		super(f);
 	}
 	
 	double vaux(double r , double vauxlast , double v) {
-		return vauxlast + (step/m)*f(r,v) ;
+		return vauxlast + (step/f.m)*f(r,v) ;
 	}
 	
 	double r(double r , double vaux) {
@@ -20,8 +23,8 @@ public class LeapFrog extends Integrator{
 	public String stepLeapFrog() {
 		StringBuilder ret = new StringBuilder("");
 		double dt = 0;
-		double rk = r0;
-		double vk = v0;
+		double rk = f.r0;
+		double vk = f.v0;
 		double vauxlast = 0;
 		double vaux = 0;
 		while(dt<tf) {

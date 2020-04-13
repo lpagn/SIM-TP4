@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.sds;
 
-public class BeemanUtil extends Integrator {
+public class BeemanUtil {
 	public double dt = 0;
 	public double step;
     public double rk;
@@ -11,12 +11,15 @@ public class BeemanUtil extends Integrator {
     private double aknext;
     private boolean initial;    
     
-    public BeemanUtil(double step, double r0, double v0) {
+    Force f;
+    
+    public BeemanUtil(double step, double r0, double v0, Force f) {
         vk=v0;
         rk=r0;
-        ak= a(r0,v0);
+        ak= f.a(r0,v0);
         this.step= step;
         initial= true;
+        this.f = f;
     }
     
     private double r() {
@@ -36,7 +39,7 @@ public class BeemanUtil extends Integrator {
             initial = false;
             double position = rk + step * vk + Math.pow(step,2) * ak * 0.5;
             double velocity = vk + step * ak;
-            aknext = a(position, velocity);
+            aknext = f.a(position, velocity);
             rk = position;
             vk = velocity;
         }
@@ -45,7 +48,7 @@ public class BeemanUtil extends Integrator {
             ak = aknext;
             rk = r();
             double vp = vp();
-            aknext = a(rk,vp);
+            aknext = f.a(rk,vp);
             vk = v();
         }
         dt += step; 

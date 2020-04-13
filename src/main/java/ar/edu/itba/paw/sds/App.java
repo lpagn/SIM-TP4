@@ -7,26 +7,28 @@ public class App
 {
     public static void main( String[] args )
     {
+    	AmortigForce f = new AmortigForce(70,10000,100,1,1);
+    	
         System.out.println( "SIM-TP4");
-        Integrator i = new Integrator();
+        Integrator i = new Integrator(f);
             
     	String analytical = i.stepSolution();
     	
     	write("analytical.txt",analytical);
     	
-    	Beeman b = new Beeman();
+    	Beeman b = new Beeman(f);
     	
     	String beeman = b.stepBeeman();
     	
     	write("beeman.txt",beeman);
     	
-    	LeapFrog l = new LeapFrog();
+    	LeapFrog l = new LeapFrog(f);
     	
     	String leapfrog = l.stepLeapFrog();
     	
     	write("leapfrog.txt",leapfrog);
     	
-    	Gear g = new Gear();
+    	Gear g = new Gear(f);
     	
         String gear = g.stepGear();
         
