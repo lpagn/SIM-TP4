@@ -9,7 +9,7 @@ public class Planet {
     double radius;
     double gravity;
 
-    Position start;
+    Position position;
     Velocity v0;
 
     public Planet(String name, double mass, double radius, double gravity, Position start, Velocity v0) {
@@ -17,7 +17,7 @@ public class Planet {
         this.mass = mass;
         this.radius = radius;
         this.gravity = gravity;
-        this.start = start;
+        this.position = start;
         this.v0 = v0;
     }
 
@@ -28,14 +28,14 @@ public class Planet {
                 ", mass=" + mass +
                 ", radius=" + radius +
                 ", gravity=" + gravity +
-                ", start=" + start +
+                ", start=" + position +
                 ", v0=" + v0 +
                 '}';
     }
 
     public String toOvito(){
 
-        return this.start.toString()+" "+ this.radius;
+        return this.position.toString()+" "+ this.radius;
 
 
     }
@@ -53,15 +53,15 @@ public class Planet {
         return res;
     }
     public  double xDistance(Planet planet){
-        return this.start.x - planet.start.x;
+        return this.position.x - planet.position.x;
 
     }
     public  double yDistance(Planet planet){
-        return this.start.y - planet.start.y;
+        return this.position.y - planet.position.y;
 
     }
     public double distance(Planet planet ){
-        return Math.sqrt(Math.pow(this.start.x-planet.start.x,2)+Math.pow(this.start.y-planet.start.y,2));
+        return Math.sqrt(Math.pow(this.position.x-planet.position.x,2)+Math.pow(this.position.y-planet.position.y,2));
     }
 
     public void move(Planet [] systme){
