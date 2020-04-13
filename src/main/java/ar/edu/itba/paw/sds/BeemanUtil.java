@@ -52,6 +52,7 @@ public class BeemanUtil {
             vk = v();
         }
         dt += step; 
-        return new MultipleValueReturn<>(rk,vk);
+        //return new MultipleValueReturn<>(rk,vk);
+        return null;
     }
 }
