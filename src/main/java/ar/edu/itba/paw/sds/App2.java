@@ -59,18 +59,24 @@ public class App2 {
         Position EARTH_POSITION = new Position(-1.443100400036066E+08,-4.114399753573054E+07);
         Velocity EARTH_VELOCITY =  new Velocity(7.903705408731369E+00,-2.868375896918129E+01);
 
+        Position SPACESHIP_POSITION = new Position(-1.443100400036066E+08-EARTH_RADIUS-1500,
+                (-4.114399753573054E+07/-1.443100400036066E+08)*(-1.443100400036066E+08-EARTH_RADIUS-1500));
+
 
         Position MARS_POSITION = new Position(-2.539920339307203E+07,-2.172958779434001E+08 );
         Velocity MARS_VELOCITY = new Velocity(2.497698760925531E+01,-6.462813052661543E-01);
 
-        Planet sun = new Planet("sun",SUN_MASS,SUN_RADIUS,SUN_GRAVITY,SUN_POSITION,new Velocity(0,0));
-        Planet earth = new Planet("earth",EARTH_MASS,EARTH_RADIUS,EARTH_GRAVITY,EARTH_POSITION,new Velocity(0,0));
-        Planet mars = new Planet("mars",MARS_MASS,MARS_RADIUS,MARS_GRAVITY,MARS_POSITION,new Velocity(0,0));
+        Planet sun = new Planet("sun",SUN_MASS,SUN_RADIUS,SUN_GRAVITY,SUN_POSITION,SUN_VELOCITY);
+        Planet earth = new Planet("earth",EARTH_MASS,EARTH_RADIUS,EARTH_GRAVITY,EARTH_POSITION,EARTH_VELOCITY);
+        Planet mars = new Planet("mars",MARS_MASS,MARS_RADIUS,MARS_GRAVITY,MARS_POSITION,MARS_VELOCITY);
 
-        System.out.println("7\n");
+        SpaceShip spaceShip = new SpaceShip(SPACESHIP_POSITION,new Velocity(0,0));
+
+        System.out.println("8\n");
         System.out.println(sun.toOvito());
         System.out.println(earth.toOvito());
         System.out.println(mars.toOvito());
+        System.out.println(spaceShip.toOvito());
         System.out.println(ovitoVlock());
 
 
