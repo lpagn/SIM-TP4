@@ -79,8 +79,75 @@ public class App2 {
         Planet[] planetsForSun = new Planet[]{earth,mars};
         final Planet[] planetsForEarth = new Planet[]{sun,mars};
         final Planet[] planetsForMars = new Planet[]{earth,sun};
-        
+
         double step = 0.0001;
+        gearUtilEX = new GearUtil(step, earth.position.x, earth.v.x, new Force() {
+            @Override
+            public double force(double r, double v) {
+                return earth.fr(planetsForEarth).x;
+            }
+
+            @Override
+            public double a(double r, double v) {
+                return earth.fr(planetsForEarth).x/earth.mass;
+            }
+
+            @Override
+            public double solution(double t) {
+                return 0;
+            }
+        });
+
+        gearUtilEY = new GearUtil(step, earth.position.y, earth.v.y, new Force() {
+            @Override
+            public double force(double r, double v) {
+                return earth.fr(planetsForEarth).y;
+            }
+
+            @Override
+            public double a(double r, double v) {
+                return earth.fr(planetsForEarth).y/earth.mass;
+            }
+
+            @Override
+            public double solution(double t) {
+                return 0;
+            }
+        });
+
+        gearUtilMX = new GearUtil(step, mars.position.x, mars.v.x, new Force() {
+            @Override
+            public double force(double r, double v) {
+                return mars.fr(planetsForMars).x;
+            }
+
+            @Override
+            public double a(double r, double v) {
+                return mars.fr(planetsForMars).x/mars.mass;
+            }
+
+            @Override
+            public double solution(double t) {
+                return 0;
+            }
+        });
+
+        gearUtilMY = new GearUtil(step, mars.position.y, mars.v.y, new Force() {
+            @Override
+            public double force(double r, double v) {
+                return mars.fr(planetsForMars).y;
+            }
+
+            @Override
+            public double a(double r, double v) {
+                return mars.fr(planetsForMars).y/mars.mass;
+            }
+
+            @Override
+            public double solution(double t) {
+                return 0;
+            }
+        });
         
         for (int i = 0; i < 1000; i++) {
 
@@ -89,73 +156,7 @@ public class App2 {
                     mars.position.toString()+ " "+ mars.radius+ "\n" +
                     sun.position.toString()+" "+sun.radius+ "\n");
             
-            gearUtilEX = new GearUtil(step, earth.position.x, earth.v.x, new Force() {
-                @Override
-                public double force(double r, double v) {
-                    return earth.fr(planetsForEarth).x;
-                }
 
-                @Override
-                public double a(double r, double v) {
-                    return earth.fr(planetsForEarth).x/earth.mass;
-                }
-
-                @Override
-                public double solution(double t) {
-                    return 0;
-                }
-            });
-
-            gearUtilEY = new GearUtil(step, earth.position.y, earth.v.y, new Force() {
-                @Override
-                public double force(double r, double v) {
-                    return earth.fr(planetsForEarth).y;
-                }
-
-                @Override
-                public double a(double r, double v) {
-                    return earth.fr(planetsForEarth).y/earth.mass;
-                }
-
-                @Override
-                public double solution(double t) {
-                    return 0;
-                }
-            });
-
-            gearUtilMX = new GearUtil(step, mars.position.x, mars.v.x, new Force() {
-                @Override
-                public double force(double r, double v) {
-                    return mars.fr(planetsForMars).x;
-                }
-
-                @Override
-                public double a(double r, double v) {
-                    return mars.fr(planetsForMars).x/mars.mass;
-                }
-
-                @Override
-                public double solution(double t) {
-                    return 0;
-                }
-            });
-
-            gearUtilMY = new GearUtil(step, mars.position.y, mars.v.y, new Force() {
-                @Override
-                public double force(double r, double v) {
-                    return mars.fr(planetsForMars).y;
-                }
-
-                @Override
-                public double a(double r, double v) {
-                    return mars.fr(planetsForMars).y/mars.mass;
-                }
-
-                @Override
-                public double solution(double t) {
-                    return 0;
-                }
-            });
 
             MultipleValueReturn<Double,Double> nextEX = gearUtilEX.next();
             MultipleValueReturn<Double,Double> nextEY = gearUtilEY.next();

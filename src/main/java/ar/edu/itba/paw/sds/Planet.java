@@ -45,7 +45,7 @@ public class Planet {
         double d,modf,rx,ry;
         for (Planet planet : planets) {
             d = this.distance(planet);
-            modf = -g*(planet.mass*this.mass)/d;
+            modf = g*(planet.mass*this.mass)/d*d;
             rx = this.xDistance(planet)/d;
             ry = this.yDistance(planet)/d;
             res.sum( modf * rx , modf * ry);
