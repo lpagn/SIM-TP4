@@ -83,4 +83,35 @@ public class Planet {
     public void setV(Velocity v) {
         this.v = v;
     }
+
+    public Vector frx(Planet[] planets, double x) {
+        Position aux = this.position;
+        this.position = new Position(x,this.position.y);
+        Vector res = new Vector(0,0);
+        double d,modf,rx,ry;
+        for (Planet planet : planets) {
+            d = this.distance(planet);
+            modf = g*(planet.mass*this.mass)/d*d;
+            rx = this.xDistance(planet)/d;
+            ry = this.yDistance(planet)/d;
+            res.sum( modf * rx , modf * ry);
+        }
+        this.position = aux;
+        return res;
+    }
+    public Vector fry(Planet[] planets, double y) {
+        Position aux = this.position;
+        this.position = new Position(this.position.x,y);
+        Vector res = new Vector(0,0);
+        double d,modf,rx,ry;
+        for (Planet planet : planets) {
+            d = this.distance(planet);
+            modf = g*(planet.mass*this.mass)/d*d;
+            rx = this.xDistance(planet)/d;
+            ry = this.yDistance(planet)/d;
+            res.sum( modf * rx , modf * ry);
+        }
+        this.position = aux;
+        return res;
+    }
 }

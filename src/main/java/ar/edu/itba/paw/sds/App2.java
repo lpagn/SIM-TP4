@@ -9,20 +9,20 @@ public class App2 {
 
         //fuente wikipedia
         double SUN_MASS = 1.989 * Math.pow(10,30);//kg
-        double SUN_RADIUS = 3e+07;//km
+        double SUN_RADIUS = 3e+07*1000;//m
         double SUN_GRAVITY = 274;//m/s²
 
         double EARTH_MASS = 5.972*Math.pow(10,24);//kg
-        double EARTH_RADIUS = 1e+07; //km
+        double EARTH_RADIUS = 1e+07*1000; //m
         double EARTH_GRAVITY = 9.807;//m/s²
 
         double MARS_MASS = 6.39 * Math.pow(10,23); //kg
-        double MARS_RADIUS = 2e+07;//km
+        double MARS_RADIUS = 2e+07*1000;//m
         double MARS_GRAVITY = 3.711;//m/s²
 
-        double SUN_TO_EARTH = 149.6 * 1000000;//km
+        double SUN_TO_EARTH = 149.6 * 1000000 *1000;//m
 
-        double SUN_TO_MARS = 219.69 *1000000; //km
+        double SUN_TO_MARS = 219.69 *1000000 *1000; //m
 
         //constante universal gravitacional universal
         double g = 6.693 * Math.pow(10,-11);
@@ -55,15 +55,15 @@ public class App2 {
         Position SUN_POSITION = new Position(0,0);
         Velocity SUN_VELOCITY = new Velocity(0,0);
 
-        Position EARTH_POSITION = new Position(-1.443100400036066E+08,-4.114399753573054E+07);
+        Position EARTH_POSITION = new Position(-1.443100400036066E+08*1000,-4.114399753573054E+07*1000);
         Velocity EARTH_VELOCITY =  new Velocity(7.903705408731369E+00*1000,-2.868375896918129E+01*1000);
 
         Position SPACESHIP_POSITION = new Position(-1.443100400036066E+08-EARTH_RADIUS-1500,
                 (-4.114399753573054E+07/-1.443100400036066E+08)*(-1.443100400036066E+08-EARTH_RADIUS-1500));
 
 
-        Position MARS_POSITION = new Position(-2.539920339307203E+07,-2.172958779434001E+08 );
-        Velocity MARS_VELOCITY = new Velocity(2.497698760925531E+01 *1000,-6.462813052661543E-01*1000);
+        Position MARS_POSITION = new Position(-2.539920339307203E+07 *1000,-2.172958779434001E+08 *1000);
+        Velocity MARS_VELOCITY = new Velocity(2.497698760925531E+01 *1000,-6.462813052661543E-01 *1000);
 
         final Planet sun = new Planet("sun",SUN_MASS,SUN_RADIUS,SUN_GRAVITY,SUN_POSITION,SUN_VELOCITY);
         final Planet earth = new Planet("earth",EARTH_MASS,EARTH_RADIUS,EARTH_GRAVITY,EARTH_POSITION,EARTH_VELOCITY);
@@ -74,7 +74,6 @@ public class App2 {
 
 
         FileWriter fw = new FileWriter("sim.txt");
-        StringBuilder sb = new StringBuilder();
         GearUtil gearUtilEY, gearUtilEX, gearUtilMX,gearUtilMY;
         Planet[] planetsForSun = new Planet[]{earth,mars};
         final Planet[] planetsForEarth = new Planet[]{sun,mars};
@@ -84,12 +83,14 @@ public class App2 {
         gearUtilEX = new GearUtil(step, earth.position.x, earth.v.x, new Force() {
             @Override
             public double force(double r, double v) {
-                return earth.fr(planetsForEarth).x;
+                double x = earth.frx(planetsForEarth,r).x;
+                return x;
             }
 
             @Override
             public double a(double r, double v) {
-                return earth.fr(planetsForEarth).x/earth.mass;
+                double x = earth.frx(planetsForEarth,r).x/earth.mass;
+                return x;
             }
 
             @Override
@@ -101,12 +102,12 @@ public class App2 {
         gearUtilEY = new GearUtil(step, earth.position.y, earth.v.y, new Force() {
             @Override
             public double force(double r, double v) {
-                return earth.fr(planetsForEarth).y;
+                return earth.fry(planetsForEarth,r).y;
             }
 
             @Override
             public double a(double r, double v) {
-                return earth.fr(planetsForEarth).y/earth.mass;
+                return earth.fry(planetsForEarth,r).y/earth.mass;
             }
 
             @Override
@@ -118,12 +119,12 @@ public class App2 {
         gearUtilMX = new GearUtil(step, mars.position.x, mars.v.x, new Force() {
             @Override
             public double force(double r, double v) {
-                return mars.fr(planetsForMars).x;
+                return mars.frx(planetsForMars,r).x;
             }
 
             @Override
             public double a(double r, double v) {
-                return mars.fr(planetsForMars).x/mars.mass;
+                return mars.frx(planetsForMars,r).x/mars.mass;
             }
 
             @Override
@@ -135,12 +136,12 @@ public class App2 {
         gearUtilMY = new GearUtil(step, mars.position.y, mars.v.y, new Force() {
             @Override
             public double force(double r, double v) {
-                return mars.fr(planetsForMars).y;
+                return mars.fry(planetsForMars,r).y;
             }
 
             @Override
             public double a(double r, double v) {
-                return mars.fr(planetsForMars).y/mars.mass;
+                return mars.fry(planetsForMars,r).y/mars.mass;
             }
 
             @Override
