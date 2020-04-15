@@ -1,12 +1,8 @@
 package ar.edu.itba.paw.sds;
 
-import com.sun.javafx.geom.transform.BaseTransform;
-import javafx.beans.binding.StringBinding;
-
-import javax.print.DocFlavor;
-import java.awt.peer.SystemTrayPeer;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.DuplicateFormatFlagsException;
 
 public class App2 {
     public static void main(String[] args) throws IOException {
@@ -79,29 +75,27 @@ public class App2 {
 
         FileWriter fw = new FileWriter("sim.txt");
         StringBuilder sb = new StringBuilder();
+        GearUtil gearUtilEY, gearUtilEX, gearUtilMX,gearUtilMY;
+        Planet[] planetsForSun = new Planet[]{earth,mars};
+        final Planet[] planetsForEarth = new Planet[]{sun,mars};
+        final Planet[] planetsForMars = new Planet[]{earth,sun};
 
-        int i = 0;
-        do{
-            i++;
+        for (int i = 0; i < 10; i++) {
 
-            sb.append("8\n");
-            sb.append(sun.toOvito()).append("\n");
-            sb.append(earth.toOvito()).append("\n");
-            sb.append(mars.toOvito()).append("\n");
-            sb.append(spaceShip.toOvito()).append("\n");
-            //sb.append(ovitoVlock()).append("\n");
+            fw.write("3\n\n");
+            fw.write(earth.position.toString()+" "+ earth.radius+ "\n" +
+                    mars.position.toString()+ " "+ mars.radius+ "\n" +
+                    sun.position.toString()+" "+sun.radius+ "\n");
 
-            //mover planetas y naves
-
-            GearUtil gearEX = new GearUtil(1, earth.position.x, earth.v.x, new Force() {
+            gearUtilEX = new GearUtil(1, earth.position.x, earth.v.x, new Force() {
                 @Override
                 public double force(double r, double v) {
-                    return earth.fr(new Planet[]{sun,mars}).x;
+                    return earth.fr(new Planet[]{sun}).x;
                 }
 
                 @Override
                 public double a(double r, double v) {
-                    return earth.fr(new Planet[]{sun,mars}).x/earth.mass;
+                    return earth.fr(new Planet[]{sun}).x/earth.mass;
                 }
 
                 @Override
@@ -110,17 +104,15 @@ public class App2 {
                 }
             });
 
-            MultipleValueReturn<Double,Double> nextEarthX = gearEX.next();
-
-            GearUtil gearEY = new GearUtil(1, earth.position.y, earth.v.y, new Force() {
+            gearUtilEY = new GearUtil(1, earth.position.y, earth.v.y, new Force() {
                 @Override
                 public double force(double r, double v) {
-                    return earth.fr(new Planet[]{sun,mars}).y;
+                    return earth.fr(planetsForEarth).y;
                 }
 
                 @Override
                 public double a(double r, double v) {
-                    return earth.fr(new Planet[]{sun,mars}).y/earth.mass;
+                    return earth.fr(planetsForEarth).y/earth.mass;
                 }
 
                 @Override
@@ -129,18 +121,15 @@ public class App2 {
                 }
             });
 
-            MultipleValueReturn<Double,Double> nextEarthY = gearEY.next();
-
-
-            GearUtil gearMX = new GearUtil(1, mars.position.x, mars.v.x, new Force() {
+            gearUtilMX = new GearUtil(1, mars.position.x, mars.v.x, new Force() {
                 @Override
                 public double force(double r, double v) {
-                    return earth.fr(new Planet[]{sun,earth}).x;
+                    return mars.fr(planetsForMars).x;
                 }
 
                 @Override
                 public double a(double r, double v) {
-                    return earth.fr(new Planet[]{sun,earth}).x/mars.mass;
+                    return mars.fr(planetsForMars).x/mars.mass;
                 }
 
                 @Override
@@ -149,19 +138,15 @@ public class App2 {
                 }
             });
 
-            MultipleValueReturn<Double,Double> nextMarsX = gearMX.next();
-
-
-
-            GearUtil gearMY = new GearUtil(1, mars.position.y, mars.v.y, new Force() {
+            gearUtilMY = new GearUtil(1, mars.position.y, mars.v.y, new Force() {
                 @Override
                 public double force(double r, double v) {
-                    return earth.fr(new Planet[]{sun,earth}).y;
+                    return mars.fr(planetsForMars).y;
                 }
 
                 @Override
                 public double a(double r, double v) {
-                    return earth.fr(new Planet[]{sun,earth}).y/mars.mass;
+                    return mars.fr(planetsForMars).y/mars.mass;
                 }
 
                 @Override
@@ -170,48 +155,17 @@ public class App2 {
                 }
             });
 
-            MultipleValueReturn<Double,Double> nextMarsY = gearMY.next();
+            MultipleValueReturn<Double,Double> nextEX = gearUtilEX.next();
+            MultipleValueReturn<Double,Double> nextEY = gearUtilEY.next();
+            MultipleValueReturn<Double,Double> nextMX = gearUtilMX.next();
+            MultipleValueReturn<Double,Double> nextMY = gearUtilMY.next();
 
 
 
-            GearUtil gearSX = new GearUtil(1, sun.position.x, sun.v.x, new Force() {
-                @Override
-                public double force(double r, double v) {
-                    return sun.fr(new Planet[]{mars,earth}).x;
-                }
-
-                @Override
-                public double a(double r, double v) {
-                    return sun.fr(new Planet[]{mars,earth}).x/sun.mass;
-                }
-
-                @Override
-                public double solution(double t) {
-                    return 0;
-                }
-            });
-
-            MultipleValueReturn<Double,Double> nextSunX = gearSX.next();
-
-
-            GearUtil gearSY = new GearUtil(1, sun.position.y, sun.v.y, new Force() {
-                @Override
-                public double force(double r, double v) {
-                    return sun.fr(new Planet[]{mars,earth}).y;
-                }
-
-                @Override
-                public double a(double r, double v) {
-                    return sun.fr(new Planet[]{mars,earth}).y/sun.mass;
-                }
-
-                @Override
-                public double solution(double t) {
-                    return 0;
-                }
-            });
-
-            MultipleValueReturn<Double,Double> nextSunY = gearSY.next();
+            earth.setPosition(new Position(nextEX.a,nextEY.a));
+            earth.setV(new Velocity(nextEX.b,nextEY.b));
+            mars.setPosition(new Position(nextMX.a,nextMY.a));
+            mars.setV(new Velocity(nextMX.b,nextMY.b));
 
 
 
@@ -219,21 +173,169 @@ public class App2 {
 
 
 
-            earth.setPosition(new Position(nextEarthX.a,nextEarthY.b));
-            earth.setV(new Velocity(nextEarthX.b, nextEarthY.b));
 
-            mars.setPosition(new Position(nextMarsX.a,nextMarsY.a));
-            mars.setV(new Velocity(nextMarsX.b,nextMarsY.b));
 
-            sun.setPosition(new Position(nextSunX.a,nextSunY.a));
-            sun.setV(new Velocity(nextSunX.b,nextSunY.b));
+
+        }
+        fw.close();
 
 
 
 
-        }while (!spaceShip.crash(mars) || i < 1);
+//        int i = 0;
+//        do{
+//            i++;
+//
+//            sb.append("8\n");
+//            sb.append(sun.toOvito()).append("\n");
+//            sb.append(earth.toOvito()).append("\n");
+//            sb.append(mars.toOvito()).append("\n");
+//            sb.append(spaceShip.toOvito()).append("\n");
+//            //sb.append(ovitoVlock()).append("\n");
+//
+//            //mover planetas y naves
+//
+//            GearUtil gearEX = new GearUtil(1, earth.position.x, earth.v.x, new Force() {
+//                @Override
+//                public double force(double r, double v) {
+//                    return earth.fr(new Planet[]{sun,mars}).x;
+//                }
+//
+//                @Override
+//                public double a(double r, double v) {
+//                    return earth.fr(new Planet[]{sun,mars}).x/earth.mass;
+//                }
+//
+//                @Override
+//                public double solution(double t) {
+//                    return 0;
+//                }
+//            });
+//
+//            MultipleValueReturn<Double,Double> nextEarthX = gearEX.next();
+//
+//            GearUtil gearEY = new GearUtil(1, earth.position.y, earth.v.y, new Force() {
+//                @Override
+//                public double force(double r, double v) {
+//                    return earth.fr(new Planet[]{sun,mars}).y;
+//                }
+//
+//                @Override
+//                public double a(double r, double v) {
+//                    return earth.fr(new Planet[]{sun,mars}).y/earth.mass;
+//                }
+//
+//                @Override
+//                public double solution(double t) {
+//                    return 0;
+//                }
+//            });
+//
+//            MultipleValueReturn<Double,Double> nextEarthY = gearEY.next();
+//
+//
+//            GearUtil gearMX = new GearUtil(1, mars.position.x, mars.v.x, new Force() {
+//                @Override
+//                public double force(double r, double v) {
+//                    return earth.fr(new Planet[]{sun,earth}).x;
+//                }
+//
+//                @Override
+//                public double a(double r, double v) {
+//                    return earth.fr(new Planet[]{sun,earth}).x/mars.mass;
+//                }
+//
+//                @Override
+//                public double solution(double t) {
+//                    return 0;
+//                }
+//            });
+//
+//            MultipleValueReturn<Double,Double> nextMarsX = gearMX.next();
+//
+//
+//
+//            GearUtil gearMY = new GearUtil(1, mars.position.y, mars.v.y, new Force() {
+//                @Override
+//                public double force(double r, double v) {
+//                    return earth.fr(new Planet[]{sun,earth}).y;
+//                }
+//
+//                @Override
+//                public double a(double r, double v) {
+//                    return earth.fr(new Planet[]{sun,earth}).y/mars.mass;
+//                }
+//
+//                @Override
+//                public double solution(double t) {
+//                    return 0;
+//                }
+//            });
+//
+//            MultipleValueReturn<Double,Double> nextMarsY = gearMY.next();
+//
+//
+//
+//            GearUtil gearSX = new GearUtil(1, sun.position.x, sun.v.x, new Force() {
+//                @Override
+//                public double force(double r, double v) {
+//                    return sun.fr(new Planet[]{mars,earth}).x;
+//                }
+//
+//                @Override
+//                public double a(double r, double v) {
+//                    return sun.fr(new Planet[]{mars,earth}).x/sun.mass;
+//                }
+//
+//                @Override
+//                public double solution(double t) {
+//                    return 0;
+//                }
+//            });
+//
+//            MultipleValueReturn<Double,Double> nextSunX = gearSX.next();
+//
+//
+//            GearUtil gearSY = new GearUtil(1, sun.position.y, sun.v.y, new Force() {
+//                @Override
+//                public double force(double r, double v) {
+//                    return sun.fr(new Planet[]{mars,earth}).y;
+//                }
+//
+//                @Override
+//                public double a(double r, double v) {
+//                    return sun.fr(new Planet[]{mars,earth}).y/sun.mass;
+//                }
+//
+//                @Override
+//                public double solution(double t) {
+//                    return 0;
+//                }
+//            });
+//
+//            MultipleValueReturn<Double,Double> nextSunY = gearSY.next();
+//
+//
+//
+//
+//
+//
+//
+//            earth.setPosition(new Position(nextEarthX.a,nextEarthY.b));
+//            earth.setV(new Velocity(nextEarthX.b, nextEarthY.b));
+//
+//            mars.setPosition(new Position(nextMarsX.a,nextMarsY.a));
+//            mars.setV(new Velocity(nextMarsX.b,nextMarsY.b));
+//
+//            sun.setPosition(new Position(nextSunX.a,nextSunY.a));
+//            sun.setV(new Velocity(nextSunX.b,nextSunY.b));
+//
+//
+//
+//
+//        }while (!spaceShip.crash(mars) || i < 1);
 
-        fw.write(sb.toString());
+        //fw.write(sb.toString());
 
 
 
