@@ -8,4 +8,8 @@ public class MultipleValueReturn<T1, T2> {
 		this.a = a;
 		this.b = b;
 	}
+	@Override
+	public String toString() {
+		return String.format("%s %s",a,b);
+	}
 }
