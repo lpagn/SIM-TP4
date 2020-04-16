@@ -89,7 +89,7 @@ public class App2 {
 
             @Override
             public double a(double r, double v) {
-                double x = earth.frx(planetsForEarth,r).x/earth.mass;
+                double x = earth.fry(planetsForEarth,r).x/(earth.mass);
                 return x;
             }
 
@@ -152,10 +152,7 @@ public class App2 {
         
         for (int i = 0; i < 1000; i++) {
 
-            fw.write("3\n\n");
-            fw.write(earth.position.toString()+" "+ earth.radius+ "\n" +
-                    mars.position.toString()+ " "+ mars.radius+ "\n" +
-                    sun.position.toString()+" "+sun.radius+ "\n");
+
 
             MultipleValueReturn<Double,Double> nextEX = gearUtilEX.next();
             MultipleValueReturn<Double,Double> nextEY = gearUtilEY.next();
@@ -166,6 +163,11 @@ public class App2 {
             earth.setV(new Velocity(nextEX.b,nextEY.b));
             mars.setPosition(new Position(nextMX.a,nextMY.a));
             mars.setV(new Velocity(nextMX.b,nextMY.b));
+
+            fw.write("3\n\n");
+            fw.write(earth.position.toString()+" "+ earth.radius+ " "+earth.fr.x+" "+earth.fr.y+"\n" +
+                    mars.position.toString()+ " "+ mars.radius+ " "+mars.fr.x+" "+mars.fr.y+"\n" +
+                    sun.position.toString()+" "+sun.radius+ " "+0+" "+0+"\n");
 
 
         }
