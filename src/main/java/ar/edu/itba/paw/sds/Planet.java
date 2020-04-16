@@ -36,8 +36,17 @@ public class Planet {
     }
 
     public String toOvito(){
+        if(this.name.compareTo("sun")==0){
+            return this.position.toString()+" "+ this.radius + " 1 1 0";
+        }
+        if(this.name.compareTo("earth")==0){
+            return this.position.toString()+" "+ this.radius + " 0 0 1";
+        }
+        if(this.name.compareTo("spaceShip") == 0){
+            return this.position.toString()+" "+ this.radius + " 1 1 1";
+        }
 
-        return this.position.toString()+" "+ this.radius + " "+this.fr.x+" "+this.fr.y;
+        return this.position.toString()+" "+ this.radius + " 1 0 0";
 
 
     }
