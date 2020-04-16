@@ -2,6 +2,7 @@ package ar.edu.itba.paw.sds;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.DuplicateFormatFlagsException;
 
 public class App2 {
@@ -76,12 +77,27 @@ public class App2 {
 
         FileWriter fw = new FileWriter("sim.txt");
         GearUtil gearUtilEY, gearUtilEX, gearUtilMX,gearUtilMY,gearUtilSX,gearUtilSY, gearUtilNX, gearUtilNY;
+
+
+
         final Planet[] planetsForSun = new Planet[]{earth,mars};
-        final Planet[] planetsForEarth = new Planet[]{sun,mars};
-        final Planet[] planetsForMars = new Planet[]{earth,sun};
-        final Planet[] planetsForSpaceShip = new Planet[]{earth,sun,mars};
+        final Planet[] planetsForEarth = new Planet[]{sun};
+        final Planet[] planetsForMars = new Planet[]{sun};
+        final Planet[] planetsForSpaceShip = new Planet[]{sun};
 
         double step = 0.00001;
+        GearForPlanetsX gex=new GearForPlanetsX(step,earth,planetsForEarth),
+                gmx=new GearForPlanetsX(step,mars,planetsForMars),
+                gsx=new GearForPlanetsX(step,sun,planetsForSun),
+                gnx=new GearForPlanetsX(step,spaceSheep,planetsForSpaceShip);
+
+        GearForPlanetsY gey=new GearForPlanetsY(step,earth,planetsForEarth),
+                gmy=new GearForPlanetsY(step,mars,planetsForMars),
+                gsy=new GearForPlanetsY(step,sun,planetsForSun),
+                gny=new GearForPlanetsY(step,spaceSheep,planetsForSpaceShip);
+
+
+
         gearUtilEX = new GearUtil(step, earth.position.x, earth.v.x, new Force() {
             @Override
             public double force(double r, double v) {
@@ -243,7 +259,7 @@ public class App2 {
                     sun.toOvito()+"\n" +
                     spaceSheep.toOvito() + "\n" +
                     ovitoVlock()+"\n");
-
+            /*
             MultipleValueReturn<Double,Double> nextEX = gearUtilEX.next();
             MultipleValueReturn<Double,Double> nextEY = gearUtilEY.next();
             MultipleValueReturn<Double,Double> nextMX = gearUtilMX.next();
@@ -252,6 +268,19 @@ public class App2 {
             MultipleValueReturn<Double,Double> nextSY = gearUtilSY.next();
             MultipleValueReturn<Double,Double> nextNX = gearUtilNX.next();
             MultipleValueReturn<Double,Double> nextNY = gearUtilNY.next();
+
+            */
+
+            MultipleValueReturn<Double,Double> nextEX = gex.next();
+            MultipleValueReturn<Double,Double> nextEY = gey.next();
+            MultipleValueReturn<Double,Double> nextMX = gmx.next();
+            MultipleValueReturn<Double,Double> nextMY = gmy.next();
+            MultipleValueReturn<Double,Double> nextSX = gsx.next();
+            MultipleValueReturn<Double,Double> nextSY = gsy.next();
+            MultipleValueReturn<Double,Double> nextNX = gnx.next();
+            MultipleValueReturn<Double,Double> nextNY = gny.next();
+
+            System.out.println("mio "+gex.next()+"luchos "+nextEX.a);
 
             earth.setPosition(new Position(nextEX.a,nextEY.a));
             earth.setV(new Velocity(nextEX.b,nextEY.b));
@@ -290,6 +319,19 @@ public class App2 {
                 (-sides)+" "+(sides)+" "+"0 0 0 0"+"\n"+
                 (-sides)+" "+(-sides)+" "+"0 0 0 0";
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     public static  double ePij(double mi,double mj,double rij){
