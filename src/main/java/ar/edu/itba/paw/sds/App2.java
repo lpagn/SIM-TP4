@@ -81,9 +81,9 @@ public class App2 {
 
 
         final Planet[] planetsForSun = new Planet[]{earth,mars};
-        final Planet[] planetsForEarth = new Planet[]{sun};
-        final Planet[] planetsForMars = new Planet[]{sun};
-        final Planet[] planetsForSpaceShip = new Planet[]{sun};
+        final Planet[] planetsForEarth = new Planet[]{sun,mars};
+        final Planet[] planetsForMars = new Planet[]{sun,earth};
+        final Planet[] planetsForSpaceShip = new Planet[]{sun,earth,mars};
 
         double step = 0.00001;
         GearForPlanetsX gex=new GearForPlanetsX(step,earth,planetsForEarth),
