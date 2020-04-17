@@ -56,7 +56,7 @@ public class Planet {
         double d,modf,rx,ry;
         for (Planet planet : planets) {
             d = this.distance(planet);
-            modf = g*(planet.mass*this.mass)/d*d;
+            modf = -g*(planet.mass*this.mass)/d*d;
             rx = this.xDistance(planet)/d;
             ry = this.yDistance(planet)/d;
             res.sum( modf * rx , modf * ry);
@@ -73,7 +73,7 @@ public class Planet {
 
     }
     public double distance(Planet planet ){
-        return Math.sqrt(Math.pow(this.position.x-planet.position.x,2)+Math.pow(this.position.y-planet.position.y,2));
+        return Math.sqrt(Math.pow(this.position.x-planet.position.x,2) + Math.pow(this.position.y-planet.position.y,2));
     }
 
     public void move(Planet [] systme){
