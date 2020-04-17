@@ -25,7 +25,7 @@ public class LeapFrogPlanetsY {
         this.rk = planet.position.y;
         this.vk = planet.v.y;
         this.vauxlast = 0;
-        this.vaux = 0;
+        this.vaux = vaux(rk,vk);
     }
 
     double vaux(double r , double vauxlast) {
