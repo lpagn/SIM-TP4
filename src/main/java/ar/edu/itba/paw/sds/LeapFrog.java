@@ -7,6 +7,7 @@ public class LeapFrog extends Integrator{
 	public LeapFrog(AmortigForce f) {
 		super(f);
 	}
+
 	
 	double vaux(double r , double vauxlast , double v) {
 		return vauxlast + (step/f.m)*f(r,v) ;
