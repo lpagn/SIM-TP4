@@ -77,10 +77,7 @@ public class Mision {
         		launched =true;
         		Vector s = new Vector((earth.position.x-EARTH_RADIUS-1500 ),earth.position.y-EARTH_RADIUS-1500);
         		spaceSheep.setPosition(s);
-        		Vector v = earth.getV();
-        		v.x += 100;
-        		v.y += 100;
-        		spaceSheep.setV(v);
+        		spaceSheep.v = spaceShipVelocity(earth,8,sun);
         	}
         	if(time % 86400 == 0) {	
         		days++;
@@ -109,13 +106,6 @@ public class Mision {
         }
         fw.close();
 
-
-        Vector frSol = sun.fr(new Planet[]{earth,mars});
-        Vector frMars = mars.fr(new Planet[]{sun,earth});
-        Vector frEarth = earth.fr(new Planet[]{sun,mars});
-        System.out.println("fuerza resultante sol "+ frSol.x +" "+ frSol.y);
-        System.out.println("fuerza resultante marte "+ frMars.x +" "+ frMars.y);
-        System.out.println("fuerza resultante tierra "+ frEarth.x +" "+ frEarth.y);
 		return step;
 	}
 	
@@ -156,6 +146,16 @@ public class Mision {
     
     public String launchedStr(Planet earth , Planet mars , Planet sun , Planet spaceSheep) {
     	return earth.toOvito()+"\n" +mars.toOvito()+"\n" +sun.toOvito()+"\n" +spaceSheep.toOvito() + "\n" +ovitoVlock()+"\n";
+    }
+
+    static Vector spaceShipVelocity(Planet partida, double v0, Planet sun){
+        v0 = v0*1000;
+        double varY =  sun.position.y - partida.position.y;
+        double distancia = sun.position.distance(partida.position);
+
+        double tita = Math.asin(varY/distancia);
+
+        return new Vector(v0*Math.cos(tita)+partida.v.x,v0*Math.sin(tita)+partida.v.y);
     }
     
 }

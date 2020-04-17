@@ -100,14 +100,28 @@ public class App2 {
         earth.acc= earth.fr(planetsForEarth).nMult(1/earth.mass);
         mars.acc = mars.fr(planetsForMars).nMult(1/mars.mass);
         spaceSheep.acc = spaceSheep.fr(planetsForSpaceShip).nMult(1/spaceSheep.mass);
-        for (int i = 0; i < 100000000; i++) {
-            if (i%100000==0){
-                fw.write("8\n\n");
-                fw.write(earth.toOvito()+"\n" +
-                        mars.toOvito()+"\n" +
-                        sun.toOvito()+"\n" +
-                        spaceSheep.toOvito() + "\n" +
-                        ovitoVlock()+"\n");
+
+        for (int i = 0,dia=0; i < 86400* 360 *2; i+=step) {
+            if (i%86400==0){
+                dia ++;
+                if(dia >=70){
+                    if(dia == 70) {
+                        spaceSheep = new Planet("spaceShip", 1000, MARS_RADIUS, 0, spaceShipPosition(earth, sun), spaceShipVelocity(earth, 8, sun));
+                    }
+                    fw.write("8\n\n");
+                    fw.write(earth.toOvito()+"\n" +
+                            mars.toOvito()+"\n" +
+                            sun.toOvito()+"\n" +
+                            spaceSheep.toOvito() + "\n" +
+                            ovitoVlock()+"\n");
+                }else{
+                    fw.write("7\n\n");
+                    fw.write(earth.toOvito()+"\n" +
+                            mars.toOvito()+"\n" +
+                            sun.toOvito()+"\n" +
+                            //spaceSheep.toOvito() + "\n" +
+                            ovitoVlock()+"\n");
+                }
             }
 
 
@@ -205,17 +219,17 @@ public class App2 {
 
     static Vector spaceShipVelocity(Planet partida, double v0, Planet sun){
         v0 = v0*1000;
-         double varY =  sun.position.y - partida.position.y;
-         double distancia = sun.position.distance(partida.position);
+        double varY =  sun.position.y - partida.position.y;
+        double distancia = sun.position.distance(partida.position);
 
-         double tita = Math.asin(varY/distancia);
+        double tita = Math.asin(varY/distancia);
 
-         return new Vector(v0*Math.cos(tita)+partida.v.x,v0*Math.sin(tita)+partida.v.y);
+        return new Vector(v0*Math.cos(tita)+partida.v.x,v0*Math.sin(tita)+partida.v.y);
     }
     static Vector spaceShipPosition(Planet partida, Planet sun){
 
         return new Vector((partida.position.x-partida.radius-1500 ),
-                (partida.position.y/partida.position.x)*(partida.position.x-partida.radius-1500 ));
+                (partida.position.y/partida.position.x)*(partida.position.x-1500));
 
     }
 
