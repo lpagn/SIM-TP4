@@ -13,11 +13,11 @@ public class App2 {
         double SUN_RADIUS = 3e+07*1000;//m
         double SUN_GRAVITY = 274;//m/s²
 
-        double EARTH_MASS = 5.972*Math.pow(10,24);//kg
+        double EARTH_MASS = 5.97219*Math.pow(10,24);//kg
         double EARTH_RADIUS = 2e+07*1000; //m
         double EARTH_GRAVITY = 9.807;//m/s²
 
-        double MARS_MASS = 6.39 * Math.pow(10,23); //kg
+        double MARS_MASS = 6.4171 * Math.pow(10,23); //kg
         double MARS_RADIUS = 1e+07*1000;//m
         double MARS_GRAVITY = 3.711;//m/s²
 
@@ -56,15 +56,15 @@ public class App2 {
         Position SUN_POSITION = new Position(0,0);
         Velocity SUN_VELOCITY = new Velocity(0,0);
 
-        Position EARTH_POSITION = new Position(-1.443100400036066E+08*1000,-4.114399753573054E+07*1000);
-        Velocity EARTH_VELOCITY =  new Velocity(7.903705408731369E+00*1000,-2.868375896918129E+01*1000);
+        Position EARTH_POSITION = new Position(-1.436232264182898E+08 *1000,-4.222184246295860E+07 *1000);
+        Velocity EARTH_VELOCITY =  new Velocity(7.917904169940719E+00 *1000,-2.867871052093815E+01 *1000);
 
         Position SPACESHIP_POSITION = new Position((-1.443100400036066E+08*1000-EARTH_RADIUS-1500 ),
                 (-4.114399753573054E+07/-1.443100400036066E+08)*(-1.443100400036066E+08*1000-EARTH_RADIUS-1500));
 
 
-        Position MARS_POSITION = new Position(-2.539920339307203E+07 *1000,-2.172958779434001E+08 *1000);
-        Velocity MARS_VELOCITY = new Velocity(2.497698760925531E+01 *1000,-6.462813052661543E-01 *1000);
+        Position MARS_POSITION = new Position(-2.471238977495339E+07 *1000,-2.183737229441134E+08 *1000);
+        Velocity MARS_VELOCITY = new Velocity(2.499118636997282E+01 *1000,-6.412328574419259E-01 *1000);
 
         final Planet sun = new Planet("sun",SUN_MASS,SUN_RADIUS,SUN_GRAVITY,SUN_POSITION,SUN_VELOCITY);
         final Planet earth = new Planet("earth",EARTH_MASS,EARTH_RADIUS,EARTH_GRAVITY,EARTH_POSITION,EARTH_VELOCITY);
@@ -280,7 +280,7 @@ public class App2 {
             MultipleValueReturn<Double,Double> nextNX = gnx.next();
             MultipleValueReturn<Double,Double> nextNY = gny.next();
 
-            System.out.println("mio "+gex.next()+"luchos "+nextEX.a);
+            //System.out.println("mio "+gex.next()+"luchos "+nextEX.a);
 
             earth.setPosition(new Position(nextEX.a,nextEY.a));
             earth.setV(new Velocity(nextEX.b,nextEY.b));
