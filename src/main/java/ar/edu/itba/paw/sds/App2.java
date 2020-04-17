@@ -70,7 +70,7 @@ public class App2 {
         Planet mars = new Planet("mars",MARS_MASS,MARS_RADIUS,MARS_GRAVITY,MARS_POSITION,MARS_VELOCITY);
 
 
-        Planet spaceSheep = new Planet("spaceShip",1,MARS_RADIUS,0,SPACESHIP_POSITION,EARTH_VELOCITY);
+        Planet spaceSheep = new Planet("spaceShip",1,MARS_RADIUS,0,spaceShipPosition(earth,sun),spaceShipVelocity(earth,13,sun));
 
 
 
@@ -122,8 +122,8 @@ public class App2 {
             MultipleValueReturn<Double,Double> nextNX = gearUtilNX.next();
             MultipleValueReturn<Double,Double> nextNY = gearUtilNY.next();
 
-            */
-            /*
+
+
             MultipleValueReturn<Double,Double> nextEX = gex.next();
             MultipleValueReturn<Double,Double> nextEY = gey.next();
             MultipleValueReturn<Double,Double> nextMX = gmx.next();
@@ -142,8 +142,8 @@ public class App2 {
             sun.setPosition(new Vector(nextSX.a,nextSY.a));
             sun.setV(new Vector(nextSX.b,nextSY.b));
             spaceSheep.setPosition(new Vector(nextNX.a,nextNY.a));
-            */
 
+            */
 
             Planet auxEarth = integrationVerletPlanet(earth,new Planet[]{sun,mars,spaceSheep},step);
             Planet auxMars = integrationVerletPlanet(mars,new Planet[]{earth,sun,spaceSheep},step);
@@ -203,6 +203,21 @@ public class App2 {
     }
 
 
+    static Vector spaceShipVelocity(Planet partida, double v0, Planet sun){
+        v0 = v0*1000;
+         double varY =  sun.position.y - partida.position.y;
+         double distancia = sun.position.distance(partida.position);
+
+         double tita = Math.asin(varY/distancia);
+
+         return new Vector(v0*Math.cos(tita)+partida.v.x,v0*Math.sin(tita)+partida.v.y);
+    }
+    static Vector spaceShipPosition(Planet partida, Planet sun){
+
+        return new Vector((partida.position.x-partida.radius-1500 ),
+                (partida.position.y/partida.position.x)*(partida.position.x-partida.radius-1500 ));
+
+    }
 
 
     public static  double ePij(double mi,double mj,double rij){
