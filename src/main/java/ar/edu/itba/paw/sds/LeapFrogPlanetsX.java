@@ -15,7 +15,8 @@ public class LeapFrogPlanetsX {
     double vaux;
     
     double f(double r){
-        return planet.frx(influence,r).x;
+        Double force = planet.frx(influence,r).x;
+        return force;
     }
 
     public LeapFrogPlanetsX(double step, Planet planet, Planet[] influence) {
@@ -45,7 +46,7 @@ public class LeapFrogPlanetsX {
         vaux = vaux(rk,vaux);
 
 
-        vk = v(vauxlast,vaux);
+            vk = v(vauxlast,vaux);
         rk = r(rk,vk);
         vauxlast = vaux;
         dt+=step;

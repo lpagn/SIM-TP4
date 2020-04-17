@@ -11,16 +11,28 @@ public class Planet {
 
     Vector fr;
 
-    Position position;
-    Velocity v;
+    Vector position;
+    Vector v;
 
-    public Planet(String name, double mass, double radius, double gravity, Position start, Velocity v0) {
+    Vector acc= new Vector(0,0);
+
+    public Planet(String name, double mass, double radius, double gravity, Vector start, Vector v) {
         this.name = name;
         this.mass = mass;
         this.radius = radius;
         this.gravity = gravity;
         this.position = start;
-        this.v = v0;
+        this.v = v;
+    }
+
+    public Planet(String name, double mass, double radius, Vector start, Vector v,Vector acc) {
+        this.name = name;
+        this.mass = mass;
+        this.radius = radius;
+        this.gravity = gravity;
+        this.position = start;
+        this.v = v;
+        this.acc = acc;
     }
 
     @Override
@@ -53,15 +65,19 @@ public class Planet {
 
     public Vector fr(Planet[] planets){
         Vector res = new Vector(0,0);
-        double d,modf,rx,ry;
-        for (Planet planet : planets) {
-            d = this.distance(planet);
-            modf = -g*(planet.mass*this.mass)/d*d;
-            rx = this.xDistance(planet)/d;
-            ry = this.yDistance(planet)/d;
-            res.sum( modf * rx , modf * ry);
+
+        double d,modf;
+        Vector versor;
+
+        for (Planet p : planets) {
+
+            d = this.position.distance(p.position);
+
+            modf = -g*p.mass*this.mass/Math.pow(d,2);
+            versor = (this.position.nRest(p.position).nDiv(this.position.nRest(p.position).getLength()));
+            res.sum( modf * versor.x , modf * versor.y);
         }
-        this.fr = res;
+
         return res;
     }
     public  double xDistance(Planet planet){
@@ -80,25 +96,25 @@ public class Planet {
 
     }
 
-    public Position getPosition() {
+    public Vector getPosition() {
         return position;
     }
 
-    public void setPosition(Position position) {
+    public void setPosition(Vector position) {
         this.position = position;
     }
 
-    public Velocity getV() {
+    public Vector getV() {
         return v;
     }
 
-    public void setV(Velocity v) {
+    public void setV(Vector v) {
         this.v = v;
     }
 
     public Vector frx(Planet[] planets, double x) {
-        Position aux = this.position;
-        this.position = new Position(x,this.position.y);
+        Vector aux = this.position;
+        this.position = new Vector(x,this.position.y);
         Vector res = new Vector(0,0);
         double d,modf,rx,ry;
         for (Planet planet : planets) {
@@ -113,8 +129,8 @@ public class Planet {
         return res;
     }
     public Vector fry(Planet[] planets, double y) {
-        Position aux = this.position;
-        this.position = new Position(this.position.x,y);
+        Vector aux = this.position;
+        this.position = new Vector(this.position.x,y);
         Vector res = new Vector(0,0);
         double d,modf,rx,ry;
         for (Planet planet : planets) {

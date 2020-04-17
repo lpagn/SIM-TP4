@@ -12,7 +12,7 @@ public class GearForPlanetsX {
     Planet[] influence;
 
     public double a(double x, double noSirve) {
-        return planet.frx(influence, x).x / planet.mass;
+        return planet.fr(influence).x / planet.mass;
     }
 
 

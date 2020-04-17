@@ -2,13 +2,12 @@ package ar.edu.itba.paw.sds;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.DuplicateFormatFlagsException;
+import java.util.List;
 
 public class App2 {
     public static void main(String[] args) throws IOException {
 
-        //fuente wikipedia
+        //fuente pagina oficial de la nasa
         double SUN_MASS = 1.989 * Math.pow(10,30);//kg
         double SUN_RADIUS = 3e+07*1000;//m
         double SUN_GRAVITY = 274;//m/s²
@@ -53,25 +52,25 @@ public class App2 {
 
 
         double L = SUN_TO_EARTH*3;
-        Position SUN_POSITION = new Position(0,0);
-        Velocity SUN_VELOCITY = new Velocity(0,0);
+        Vector SUN_POSITION = new Vector(0,0);
+        Vector SUN_VELOCITY = new Vector(0,0);
 
-        Position EARTH_POSITION = new Position(-1.436232264182898E+08 *1000,-4.222184246295860E+07 *1000);
-        Velocity EARTH_VELOCITY =  new Velocity(7.917904169940719E+00 *1000,-2.867871052093815E+01 *1000);
+        Vector EARTH_POSITION = new Vector(-1.436232264182898E+08 *1000,-4.222184246295860E+07 *1000);
+        Vector EARTH_VELOCITY =  new Vector(7.917904169940719E+00 *1000,-2.867871052093815E+01 *1000);
 
-        Position SPACESHIP_POSITION = new Position((-1.443100400036066E+08*1000-EARTH_RADIUS-1500 ),
+        Vector SPACESHIP_POSITION = new Vector((-1.443100400036066E+08*1000-EARTH_RADIUS-1500 ),
                 (-4.114399753573054E+07/-1.443100400036066E+08)*(-1.443100400036066E+08*1000-EARTH_RADIUS-1500));
 
 
-        Position MARS_POSITION = new Position(-2.471238977495339E+07 *1000,-2.183737229441134E+08 *1000);
-        Velocity MARS_VELOCITY = new Velocity(2.499118636997282E+01 *1000,-6.412328574419259E-01 *1000);
+        Vector MARS_POSITION = new Vector(-2.471238977495339E+07 *1000,-2.183737229441134E+08 *1000);
+        Vector MARS_VELOCITY = new Vector(2.499118636997282E+01 *1000,-6.412328574419259E-01 *1000);
 
-        final Planet sun = new Planet("sun",SUN_MASS,SUN_RADIUS,SUN_GRAVITY,SUN_POSITION,SUN_VELOCITY);
-        final Planet earth = new Planet("earth",EARTH_MASS,EARTH_RADIUS,EARTH_GRAVITY,EARTH_POSITION,EARTH_VELOCITY);
-        final Planet mars = new Planet("mars",MARS_MASS,MARS_RADIUS,MARS_GRAVITY,MARS_POSITION,MARS_VELOCITY);
+        Planet sun = new Planet("sun",SUN_MASS,SUN_RADIUS,SUN_GRAVITY,SUN_POSITION,SUN_VELOCITY);
+        Planet earth = new Planet("earth",EARTH_MASS,EARTH_RADIUS,EARTH_GRAVITY,EARTH_POSITION,EARTH_VELOCITY);
+        Planet mars = new Planet("mars",MARS_MASS,MARS_RADIUS,MARS_GRAVITY,MARS_POSITION,MARS_VELOCITY);
 
 
-        final Planet spaceSheep = new Planet("spaceShip",1,MARS_RADIUS,0,SPACESHIP_POSITION,EARTH_VELOCITY);
+        Planet spaceSheep = new Planet("spaceShip",1,MARS_RADIUS,0,SPACESHIP_POSITION,EARTH_VELOCITY);
 
 
 
@@ -85,7 +84,7 @@ public class App2 {
         final Planet[] planetsForMars = new Planet[]{sun,earth};
         final Planet[] planetsForSpaceShip = new Planet[]{sun,earth,mars};
 
-        double step = 0.00001;
+        double step = 5;
         GearForPlanetsX gex=new GearForPlanetsX(step,earth,planetsForEarth),
                 gmx=new GearForPlanetsX(step,mars,planetsForMars),
                 gsx=new GearForPlanetsX(step,sun,planetsForSun),
@@ -98,167 +97,21 @@ public class App2 {
 
 
 
-        gearUtilEX = new GearUtil(step, earth.position.x, earth.v.x, new Force() {
-            @Override
-            public double force(double r, double v) {
-                return  earth.frx(planetsForEarth,r).x;
-                //return earth.fr(planetsForEarth).x;
+        earth.acc= earth.fr(planetsForEarth).nMult(1/earth.mass);
+        mars.acc = mars.fr(planetsForMars).nMult(1/mars.mass);
+        spaceSheep.acc = spaceSheep.fr(planetsForSpaceShip).nMult(1/spaceSheep.mass);
+        for (int i = 0; i < 100000000; i++) {
+            if (i%100000==0){
+                fw.write("8\n\n");
+                fw.write(earth.toOvito()+"\n" +
+                        mars.toOvito()+"\n" +
+                        sun.toOvito()+"\n" +
+                        spaceSheep.toOvito() + "\n" +
+                        ovitoVlock()+"\n");
             }
 
-            @Override
-            public double a(double r, double v) {
-                return earth.frx(planetsForEarth,r).x/(earth.mass);
-                //return earth.fr(planetsForEarth).y;
-            }
-
-            @Override
-            public double solution(double t) {
-                return 0;
-            }
-        });
-
-        gearUtilEY = new GearUtil(step, earth.position.y, earth.v.y, new Force() {
-            @Override
-            public double force(double r, double v) {
-                return earth.fry(planetsForEarth,r).y;
-                //return earth.fr(planetsForEarth).y;
-            }
-
-            @Override
-            public double a(double r, double v) {
-                return earth.fry(planetsForEarth,r).y/earth.mass;
-                //return earth.fr(planetsForEarth).y/earth.mass;
-            }
-
-            @Override
-            public double solution(double t) {
-                return 0;
-            }
-        });
-
-        gearUtilMX = new GearUtil(step, mars.position.x, mars.v.x, new Force() {
-            @Override
-            public double force(double r, double v) {
-                return mars.frx(planetsForMars,r).x;
-                //return mars.fr(planetsForMars).x;
-            }
-
-            @Override
-            public double a(double r, double v) {
-                return mars.frx(planetsForMars,r).x/mars.mass;
-                //return mars.fr(planetsForMars).x/mars.mass;
-            }
-
-            @Override
-            public double solution(double t) {
-                return 0;
-            }
-        });
-
-        gearUtilMY = new GearUtil(step, mars.position.y, mars.v.y, new Force() {
-            @Override
-            public double force(double r, double v) {
-                return mars.fry(planetsForMars,r).y;
-                //return mars.fr(planetsForMars).y;
-            }
-
-            @Override
-            public double a(double r, double v) {
-                return mars.fry(planetsForMars,r).y/mars.mass;
-                //return mars.fr(planetsForMars).y;
-            }
-
-            @Override
-            public double solution(double t) {
-                return 0;
-            }
-        });
-
-        gearUtilSY = new GearUtil(step, sun.position.y, sun.v.y, new Force() {
-            @Override
-            public double force(double r, double v) {
-                return sun.fry(planetsForSun,r).y;
-                //return sun.fr(planetsForSun).y;
-            }
-
-            @Override
-            public double a(double r, double v) {
-                return sun.fry(planetsForSun,r).y/sun.mass;
-                //return sun.fr(planetsForSun).y/sun.mass;
-            }
-
-            @Override
-            public double solution(double t) {
-                return 0;
-            }
-        });
-        gearUtilSX = new GearUtil(step, sun.position.x, sun.v.x, new Force() {
-            @Override
-            public double force(double r, double v) {
-                return sun.fry(planetsForSun,r).x;
-                //return sun.fry(planetsForSun,r).x;
-            }
-
-            @Override
-            public double a(double r, double v) {
-                return sun.fry(planetsForSun,r).x/sun.mass;
-                //return sun.fr(planetsForSun).x/sun.mass;
-            }
-
-            @Override
-            public double solution(double t) {
-                return 0;
-            }
-        });
 
 
-        gearUtilNX = new GearUtil(step, spaceSheep.position.x, spaceSheep.v.x, new Force() {
-            @Override
-            public double force(double r, double v) {
-                return spaceSheep.frx(planetsForMars,r).x;
-                //return mars.fr(planetsForMars).x;
-            }
-
-            @Override
-            public double a(double r, double v) {
-                return spaceSheep.frx(planetsForSpaceShip,r).x/spaceSheep.mass;
-                //return mars.fr(planetsForMars).x/mars.mass;
-            }
-
-            @Override
-            public double solution(double t) {
-                return 0;
-            }
-        });
-
-        gearUtilNY = new GearUtil(step, spaceSheep.position.y, spaceSheep.v.y, new Force() {
-            @Override
-            public double force(double r, double v) {
-                return spaceSheep.fry(planetsForSpaceShip,r).y;
-                //return mars.fr(planetsForMars).y;
-            }
-
-            @Override
-            public double a(double r, double v) {
-                return spaceSheep.fry(planetsForSpaceShip,r).y/spaceSheep.mass;
-                //return mars.fr(planetsForMars).y;
-            }
-
-            @Override
-            public double solution(double t) {
-                return 0;
-            }
-        });
-        
-        for (int i = 0; i < 1000; i++) {
-
-
-            fw.write("8\n\n");
-            fw.write(earth.toOvito()+"\n" +
-                    mars.toOvito()+"\n" +
-                    sun.toOvito()+"\n" +
-                    spaceSheep.toOvito() + "\n" +
-                    ovitoVlock()+"\n");
             /*
             MultipleValueReturn<Double,Double> nextEX = gearUtilEX.next();
             MultipleValueReturn<Double,Double> nextEY = gearUtilEY.next();
@@ -270,7 +123,7 @@ public class App2 {
             MultipleValueReturn<Double,Double> nextNY = gearUtilNY.next();
 
             */
-
+            /*
             MultipleValueReturn<Double,Double> nextEX = gex.next();
             MultipleValueReturn<Double,Double> nextEY = gey.next();
             MultipleValueReturn<Double,Double> nextMX = gmx.next();
@@ -280,22 +133,29 @@ public class App2 {
             MultipleValueReturn<Double,Double> nextNX = gnx.next();
             MultipleValueReturn<Double,Double> nextNY = gny.next();
 
-            //System.out.println("mio "+gex.next()+"luchos "+nextEX.a);
 
-            earth.setPosition(new Position(nextEX.a,nextEY.a));
-            earth.setV(new Velocity(nextEX.b,nextEY.b));
-            mars.setPosition(new Position(nextMX.a,nextMY.a));
-            mars.setV(new Velocity(nextMX.b,nextMY.b));
-            sun.setPosition(new Position(nextSX.a,nextSY.a));
-            sun.setV(new Velocity(nextSX.b,nextSY.b));
-            spaceSheep.setPosition(new Position(nextNX.a,nextNY.a));
 
-            /*
-            fw.write("3\n\n");
-            fw.write(earth.position.toString()+" "+ earth.radius+ " "+earth.fr.x+" "+earth.fr.y+"\n" +
-                    mars.position.toString()+ " "+ mars.radius+ " "+mars.fr.x+" "+mars.fr.y+"\n" +
-                    sun.position.toString()+" "+sun.radius+ " "+0+" "+0+"\n");
+            earth.setPosition(new Vector(nextEX.a,nextEY.a));
+            earth.setV(new Vector(nextEX.b,nextEY.b));
+            mars.setPosition(new Vector(nextMX.a,nextMY.a));
+            mars.setV(new Vector(nextMX.b,nextMY.b));
+            sun.setPosition(new Vector(nextSX.a,nextSY.a));
+            sun.setV(new Vector(nextSX.b,nextSY.b));
+            spaceSheep.setPosition(new Vector(nextNX.a,nextNY.a));
             */
+
+
+            Planet auxEarth = integrationVerletPlanet(earth,new Planet[]{sun,mars,spaceSheep},step);
+            Planet auxMars = integrationVerletPlanet(mars,new Planet[]{earth,sun,spaceSheep},step);
+            Planet auxSpaceSheep = integrationVerletPlanet(spaceSheep,new Planet[]{sun,earth,mars},step);
+            earth = auxEarth;
+            mars = auxMars;
+            spaceSheep = auxSpaceSheep;
+
+
+            //System.out.println(earth.position.toString());
+
+
 
         }
         fw.close();
@@ -329,7 +189,18 @@ public class App2 {
 
 
 
+    static Planet integrationVerletPlanet(Planet p, Planet[] planets, double dt){
 
+        Vector position = p.position;
+        Vector velocity = p.v;
+        Vector acceleration = p.acc;
+        velocity = velocity.getAdded(acceleration.nMult(dt/2));
+        position = position.getAdded(velocity.nMult(dt));
+        acceleration = p.fr(planets).nDiv(p.mass);
+        velocity = velocity.getAdded(acceleration.nMult(dt/2));
+
+        return new Planet(p.name,p.mass,p.radius,position,velocity,acceleration);
+    }
 
 
 
@@ -343,4 +214,7 @@ public class App2 {
         double g = 6.693 * Math.pow(10,-11);
         return g * ((mi*mj)/(Math.pow(rij,2))) * eij;
     }
+
+
+
 }

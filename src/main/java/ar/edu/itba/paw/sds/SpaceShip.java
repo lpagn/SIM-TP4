@@ -2,11 +2,11 @@ package ar.edu.itba.paw.sds;
 
 public class SpaceShip {
 
-    Position position;
-    Velocity v;
+    Vector position;
+    Vector v;
     double radio  = 5e+06;
 
-    public SpaceShip(Position position, Velocity v) {
+    public SpaceShip(Vector position, Vector v) {
         this.position = position;
         this.v = v;
     }
