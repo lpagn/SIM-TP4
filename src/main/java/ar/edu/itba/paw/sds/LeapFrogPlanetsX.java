@@ -43,6 +43,8 @@ public class LeapFrogPlanetsX {
     
     public MultipleValueReturn<Double,Double> stepLeapFrog() {
         vaux = vaux(rk,vaux);
+
+
         vk = v(vauxlast,vaux);
         rk = r(rk,vk);
         vauxlast = vaux;
