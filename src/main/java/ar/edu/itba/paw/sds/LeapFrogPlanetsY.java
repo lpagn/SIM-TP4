@@ -1,8 +1,7 @@
 package ar.edu.itba.paw.sds;
 
-public class LeapFrogPlanetsX {
-
-    double step;
+public class LeapFrogPlanetsY {
+	double step;
 
     Planet planet;
 
@@ -15,16 +14,16 @@ public class LeapFrogPlanetsX {
     double vaux;
     
     double f(double r){
-        return planet.frx(influence,r).x;
+        return planet.fry(influence,r).y;
     }
 
-    public LeapFrogPlanetsX(double step, Planet planet, Planet[] influence) {
+    public LeapFrogPlanetsY(double step, Planet planet, Planet[] influence) {
         this.step = step;
         this.planet = planet;
         this.influence = influence;
         this.dt = 0;
-        this.rk = planet.position.x;
-        this.vk = planet.v.x;
+        this.rk = planet.position.y;
+        this.vk = planet.v.y;
         this.vauxlast = 0;
         this.vaux = 0;
     }
@@ -49,5 +48,4 @@ public class LeapFrogPlanetsX {
         dt+=step;
         return new MultipleValueReturn<>(rk,vk);
     }
-
 }
