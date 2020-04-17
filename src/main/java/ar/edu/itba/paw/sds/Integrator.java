@@ -4,7 +4,7 @@ public class Integrator {
 	
 	double tf = 5;//[s]
 	
-	double step = 0.00001;//[s]
+	double step = 0.001;//[s]
 	
 	Force force = new AmortigForce();
 	
