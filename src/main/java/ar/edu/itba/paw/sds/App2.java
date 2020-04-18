@@ -9,15 +9,12 @@ public class App2 {
         double L = InitialData.SUN_TO_EARTH*3;
 
 
-        Vector MARS_POSITION = new Vector(-2.471238977495339E+07 *1000,-2.183737229441134E+08 *1000);
-        Vector MARS_VELOCITY = new Vector(2.499118636997282E+01 *1000,-6.412328574419259E-01 *1000);
-
         Planet sun = new Planet("sun",InitialData.SUN_MASS,InitialData.SUN_RADIUS,InitialData.SUN_GRAVITY,InitialData.SUN_POSITION,InitialData.SUN_VELOCITY);
         Planet earth = new Planet("earth",InitialData.EARTH_MASS,InitialData.EARTH_RADIUS,InitialData.EARTH_GRAVITY,InitialData.EARTH_POSITION,InitialData.EARTH_VELOCITY);
-        Planet mars = new Planet("mars",InitialData.MARS_MASS,InitialData.MARS_RADIUS,InitialData.MARS_GRAVITY,MARS_POSITION,MARS_VELOCITY);
+        Planet mars = new Planet("mars",InitialData.MARS_MASS,InitialData.MARS_RADIUS,InitialData.MARS_GRAVITY,InitialData.MARS_POSITION,InitialData.MARS_VELOCITY);
 
 
-        Planet spaceSheep = new Planet("spaceShip",1,InitialData.MARS_RADIUS,0,spaceShipPosition(earth,sun),spaceShipVelocity(earth,13,sun));
+        Planet spaceSheep = new Planet("spaceShip",1,InitialData.MARS_RADIUS,InitialData.SPACESHIP_MASS,spaceShipPosition(earth,sun),spaceShipVelocity(earth,13,sun));
 
 
 
@@ -25,9 +22,9 @@ public class App2 {
 
 
 
-        final Planet[] planetsForSun = new Planet[]{earth,mars};
-        final Planet[] planetsForEarth = new Planet[]{sun,mars};
-        final Planet[] planetsForMars = new Planet[]{sun,earth};
+        final Planet[] planetsForSun = new Planet[]{earth,mars,spaceSheep};
+        final Planet[] planetsForEarth = new Planet[]{sun,mars,spaceSheep};
+        final Planet[] planetsForMars = new Planet[]{sun,earth,spaceSheep};
         final Planet[] planetsForSpaceShip = new Planet[]{sun,earth,mars};
 
         double step = 5;

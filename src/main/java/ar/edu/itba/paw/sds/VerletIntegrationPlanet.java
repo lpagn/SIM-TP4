@@ -6,10 +6,10 @@ public class VerletIntegrationPlanet {
         Vector position = p.position;
         Vector velocity = p.v;
         Vector acceleration = p.acc;
-        velocity = velocity.getAdded(acceleration.nMult(dt/2));
-        position = position.getAdded(velocity.nMult(dt));
+        velocity = velocity.nSum(acceleration.nMult(dt/2));
+        position = position.nSum(velocity.nMult(dt));
         acceleration = p.fr(planets).nDiv(p.mass);
-        velocity = velocity.getAdded(acceleration.nMult(dt/2));
+        velocity = velocity.nSum(acceleration.nMult(dt/2));
 
         return new Planet(p.name,p.mass,p.radius,position,velocity,acceleration);
     }

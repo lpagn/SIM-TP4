@@ -1,15 +1,16 @@
 package ar.edu.itba.paw.sds;
 
-import java.net.DatagramPacket;
-
 public class Vector{
+
     double x;
     double y;
+
     public Vector(double x,double y){
         this.x = x;
         this.y = y;
     }
-    public void sum(Vector v){
+
+    public void sumVec(Vector v){
         this.x += v.x;
         this.y += v.y;
     }
@@ -24,13 +25,8 @@ public class Vector{
     }
 
 
-    public Vector getAdded(Vector v) { return new Vector(this.x + v.x, this.y + v.y);
+    public Vector nSum(Vector v) { return new Vector(this.x + v.x, this.y + v.y);
     }
-
-    public Vector getMultiplied(double scalar) {
-        return new Vector(x * scalar, y * scalar);
-    }
-
 
     public String toString() {
         return this.x +" "+this.y;
@@ -42,15 +38,7 @@ public class Vector{
     public Vector nDiv(double scalar) {
         return new Vector(x / scalar, y / scalar);
     }
-    public void add(Vector v) {
-        this.x += v.x;
-        this.y += v.y;
-    }
-    public double distanceSq(Vector v) {
-        double vx = v.x - this.x;
-        double vy = v.y - this.y;
-        return (vx * vx + vy * vy);
-    }
+
     public double getLength() {
         return Math.sqrt(x * x + y * y);
     }

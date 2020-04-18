@@ -122,10 +122,10 @@ public class Mision {
         Vector position = p.position;
         Vector velocity = p.v;
         Vector acceleration = p.acc;
-        velocity = velocity.getAdded(acceleration.nMult(dt/2));
-        position = position.getAdded(velocity.nMult(dt));
+        velocity = velocity.nSum(acceleration.nMult(dt/2));
+        position = position.nSum(velocity.nMult(dt));
         acceleration = p.fr(planets).nDiv(p.mass);
-        velocity = velocity.getAdded(acceleration.nMult(dt/2));
+        velocity = velocity.nSum(acceleration.nMult(dt/2));
 
         return new Planet(p.name,p.mass,p.radius,position,velocity,acceleration);
     }
@@ -156,6 +156,12 @@ public class Mision {
         double tita = Math.asin(varY/distancia);
 
         return new Vector(v0*Math.cos(tita)+partida.v.x,v0*Math.sin(tita)+partida.v.y);
+    }
+    static Vector spaceShipPosition(Planet partida, Planet sun){
+
+        return new Vector((partida.position.x-partida.radius-1500 ),
+                (partida.position.y/partida.position.x)*(partida.position.x-1500));
+
     }
     
 }

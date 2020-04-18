@@ -15,10 +15,15 @@ for line in lines:
         mars.append([float(params[1]), float(params[2])])
 
 distance = []
+min = float("inf")
+day = 0
 for i in range(0, len(earth)):
     distance.append(math.sqrt(math.pow(earth[i][0] - mars[i][0], 2) + math.pow(earth[i][1] - mars[i][1], 2)))
-    print(distance[i])
+    if distance[i] < min:
+        min = distance[i]
+        day = i
 
+print(day)
 
 plt.figure(1)
 plt.xlabel("cantidad de dias desde el 06/04/2020")
