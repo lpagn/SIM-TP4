@@ -14,7 +14,7 @@ public class LeapFrogPlanetsY {
     double vaux;
     
     double f(double r){
-        return planet.fry(influence,r).y;
+        return planet.fr(influence).y;
     }
 
     public LeapFrogPlanetsY(double step, Planet planet, Planet[] influence) {

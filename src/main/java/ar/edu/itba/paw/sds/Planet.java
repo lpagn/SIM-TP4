@@ -49,16 +49,16 @@ public class Planet {
 
     public String toOvito(){
         if(this.name.compareTo("sun")==0){
-            return this.position.toString()+" "+ this.radius + " 1 1 0";
+            return "0 " + this.position.toString()+" "+ this.radius + " 1 1 0";
         }
         if(this.name.compareTo("earth")==0){
-            return this.position.toString()+" "+ this.radius + " 0 0 1";
+            return "1 " + this.position.toString()+" "+ this.radius + " 0 0 1";
         }
         if(this.name.compareTo("spaceShip") == 0){
-            return this.position.toString()+" "+ this.radius + " 1 1 1";
+            return "3 "  + this.position.toString()+" "+ this.radius + " 1 1 1";
         }
 
-        return this.position.toString()+" "+ this.radius + " 1 0 0";
+        return "2 " + this.position.toString()+" "+ this.radius + " 1 0 0";
 
 
     }
@@ -112,36 +112,5 @@ public class Planet {
         this.v = v;
     }
 
-    public Vector frx(Planet[] planets, double x) {
-        Vector aux = this.position;
-        this.position = new Vector(x,this.position.y);
-        Vector res = new Vector(0,0);
-        double d,modf,rx,ry;
-        for (Planet planet : planets) {
-            d = this.distance(planet);
-            modf = -g*(planet.mass*this.mass)/d*d;
-            rx = this.xDistance(planet)/d;
-            ry = this.yDistance(planet)/d;
-            res.sum( modf * rx , modf * ry);
-        }
-        this.position = aux;
-        this.fr = res;
-        return res;
-    }
-    public Vector fry(Planet[] planets, double y) {
-        Vector aux = this.position;
-        this.position = new Vector(this.position.x,y);
-        Vector res = new Vector(0,0);
-        double d,modf,rx,ry;
-        for (Planet planet : planets) {
-            d = this.distance(planet);
-            modf = -g*(planet.mass*this.mass)/d*d;
-            rx = this.xDistance(planet)/d;
-            ry = this.yDistance(planet)/d;
-            res.sum( modf * rx , modf * ry);
-        }
-        this.position = aux;
-        this.fr =res;
-        return res;
-    }
+
 }

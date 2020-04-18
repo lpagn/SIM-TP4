@@ -15,7 +15,7 @@ public class LeapFrogPlanetsX {
     double vaux;
     
     double f(double r){
-        Double force = planet.frx(influence,r).x;
+        Double force = planet.fr(influence).x;
         return force;
     }
 
