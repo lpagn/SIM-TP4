@@ -22,9 +22,9 @@ public class App2 {
 
 
 
-        final Planet[] planetsForSun = new Planet[]{earth,mars,spaceSheep};
-        final Planet[] planetsForEarth = new Planet[]{sun,mars,spaceSheep};
-        final Planet[] planetsForMars = new Planet[]{sun,earth,spaceSheep};
+        final Planet[] planetsForSun = new Planet[]{earth,mars};
+        final Planet[] planetsForEarth = new Planet[]{sun,mars};
+        final Planet[] planetsForMars = new Planet[]{sun,earth};
         final Planet[] planetsForSpaceShip = new Planet[]{sun,earth,mars};
 
         double step = 5;
@@ -38,7 +38,7 @@ public class App2 {
                 dia ++;
                 if(dia >=70){
                     if(dia == 70) {
-                        spaceSheep = new Planet("spaceShip", 1000, InitialData.MARS_RADIUS, 0, spaceShipPosition(earth, sun), spaceShipVelocity(earth, 8, sun));
+                        spaceSheep = new Planet("spaceShip", InitialData.SPACESHIP_MASS, InitialData.MARS_RADIUS, 0, spaceShipPosition(earth, sun), spaceShipVelocity(earth, 8, sun));
                     }
                     fw.write("8\n\n");
                     fw.write(earth.toOvito()+"\n" +
@@ -101,8 +101,11 @@ public class App2 {
     }
     static Vector spaceShipPosition(Planet partida, Planet sun){
 
-        return new Vector((partida.position.x-partida.radius-1500 ),
-                (partida.position.y/partida.position.x)*(partida.position.x-1500));
+        Vector vp = partida.position.nDiv(partida.position.module());
+        double mod = vp.module();
+        double modp = partida.position.module();
+         Vector v = vp.nMult(partida.position.module()+1500);
+        return vp.nMult(partida.position.module()+1500);
 
     }
 

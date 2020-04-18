@@ -76,7 +76,7 @@ public class Mision {
         	if(days==deltaDay) {
         		launched =true;
         		Vector s = new Vector((earth.position.x-EARTH_RADIUS-1500 ),earth.position.y-EARTH_RADIUS-1500);
-        		spaceSheep.setPosition(s);
+        		spaceSheep.setPosition(spaceShipPosition(earth));
         		spaceSheep.v = spaceShipVelocity(earth,8,sun);
         	}
         	if(time % 86400 == 0) {	
@@ -148,6 +148,7 @@ public class Mision {
     	return earth.toOvito()+"\n" +mars.toOvito()+"\n" +sun.toOvito()+"\n" +spaceSheep.toOvito() + "\n" +ovitoVlock()+"\n";
     }
 
+
     static Vector spaceShipVelocity(Planet partida, double v0, Planet sun){
         v0 = v0*1000;
         double varY =  sun.position.y - partida.position.y;
@@ -157,10 +158,16 @@ public class Mision {
 
         return new Vector(v0*Math.cos(tita)+partida.v.x,v0*Math.sin(tita)+partida.v.y);
     }
-    static Vector spaceShipPosition(Planet partida, Planet sun){
 
-        return new Vector((partida.position.x-partida.radius-1500 ),
-                (partida.position.y/partida.position.x)*(partida.position.x-1500));
+    static Vector spaceShipPosition(Planet partida){
+
+
+        Vector vp = partida.position.nDiv(partida.position.module());
+        double mod = vp.module();// = 1
+
+        double modp = partida.position.module();
+        Vector v = vp.nMult(mod);
+        return v;
 
     }
     
