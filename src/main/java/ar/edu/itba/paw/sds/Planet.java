@@ -74,7 +74,7 @@ public class Planet {
             d = this.position.distance(p.position);
 
             modf = -g*p.mass*this.mass/Math.pow(d,2);
-            versor = (this.position.nRest(p.position).nDiv(this.position.nRest(p.position).getLength()));
+            versor = (this.position.nRest(p.position).nDiv(this.position.nRest(p.position).module()));
             res.sum( modf * versor.x , modf * versor.y);
         }
 
