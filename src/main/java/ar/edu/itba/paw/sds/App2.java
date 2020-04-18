@@ -14,7 +14,7 @@ public class App2 {
         Planet mars = new Planet("mars",InitialData.MARS_MASS,InitialData.MARS_RADIUS,InitialData.MARS_GRAVITY,InitialData.MARS_POSITION,InitialData.MARS_VELOCITY);
 
 
-        Planet spaceSheep = new Planet("spaceShip",1,InitialData.MARS_RADIUS,InitialData.SPACESHIP_MASS,spaceShipPosition(earth,sun),spaceShipVelocity(earth,13,sun));
+        Planet spaceSheep = new Planet("spaceShip",1,InitialData.MARS_RADIUS,InitialData.SPACESHIP_MASS,spaceShipPosition(earth,sun),spaceShipVelocity(earth,8,sun));
 
 
 
@@ -36,8 +36,8 @@ public class App2 {
         for (int i = 0,dia=0; i < 86400* 360 *2; i+=step) {
             if (i%86400==0){
                 dia ++;
-                if(dia >=70){
-                    if(dia == 70) {
+                if(dia >=181){
+                    if(dia == 181) {
                         spaceSheep = new Planet("spaceShip", InitialData.SPACESHIP_MASS, InitialData.MARS_RADIUS, 0, spaceShipPosition(earth, sun), spaceShipVelocity(earth, 8, sun));
                     }
                     fw.write("8\n\n");
@@ -59,10 +59,14 @@ public class App2 {
 
             Planet auxEarth = VerletIntegrationPlanet.integrate(earth,new Planet[]{sun,mars,spaceSheep},step);
             Planet auxMars = VerletIntegrationPlanet.integrate(mars,new Planet[]{earth,sun,spaceSheep},step);
-            Planet auxSpaceSheep = VerletIntegrationPlanet.integrate(spaceSheep,new Planet[]{sun,earth,mars},step);
+
             earth = auxEarth;
             mars = auxMars;
-            spaceSheep = auxSpaceSheep;
+            if (dia >181){
+                Planet auxSpaceSheep = VerletIntegrationPlanet.integrate(spaceSheep,new Planet[]{sun,earth,mars},step);
+                spaceSheep = auxSpaceSheep;
+            }
+
 
 
         }
@@ -91,21 +95,27 @@ public class App2 {
 
 
     static Vector spaceShipVelocity(Planet partida, double v0, Planet sun){
+
+        Vector departureV= new Vector(partida.v.x,partida.v.y);
+        Vector vv = departureV.nDiv(departureV.module());
+
         v0 = v0*1000;
+
+        Vector nv = vv.nMult(departureV.module()+v0);
+
         double varY =  sun.position.y - partida.position.y;
         double distancia = sun.position.distance(partida.position);
 
         double tita = Math.asin(varY/distancia);
 
-        return new Vector(v0*Math.cos(tita)+partida.v.x,v0*Math.sin(tita)+partida.v.y);
+        //return new Vector(v0*Math.cos(tita)+partida.v.x,v0*Math.sin(tita)+partida.v.y);
+        return nv;
     }
     static Vector spaceShipPosition(Planet partida, Planet sun){
-
-        Vector vp = partida.position.nDiv(partida.position.module());
-        double mod = vp.module();
-        double modp = partida.position.module();
-         Vector v = vp.nMult(partida.position.module()+1500);
-        return vp.nMult(partida.position.module()+1500);
+        Vector planetPosition = new Vector(partida.position.x,partida.position.y);
+        Vector versor = planetPosition.nDiv(planetPosition.module());
+        double module = planetPosition.module();
+        return versor.nMult(module+1500+partida.radius);
 
     }
 
