@@ -112,5 +112,9 @@ public class Planet {
         this.v = v;
     }
 
+    public boolean passOrbit(Planet planet, Planet sun){
+
+        return this.position.module() >= planet.position.module();
+    }
 
 }

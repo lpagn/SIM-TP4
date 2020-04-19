@@ -23,10 +23,33 @@ for i in range(0, len(earth)):
         min = distance[i]
         day = i
 
-print(day)
+print("Dia de salida: " + str(day))
 
 plt.figure(1)
 plt.xlabel("cantidad de dias desde el 06/04/2020")
 plt.ylabel("distancia entre la tierra y marte en metros")
 plt.plot(distance)
+
+mx = []
+my = []
+for point in mars:
+    mx.append(point[0])
+    my.append(point[1])
+ex = []
+ey = []
+for point in earth:
+    ex.append(point[0])
+    ey.append(point[1])
+plt.figure(2)
+plt.xlabel("distania en metros al 0")
+plt.ylabel("distancia en metros al 0")
+
+
+plt.plot(mx, my, label="marte")
+plt.plot(ex, ey, label="tierra")
+
+plt.legend()
+
+
 plt.show()
+
