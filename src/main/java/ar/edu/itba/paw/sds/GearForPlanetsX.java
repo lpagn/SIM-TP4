@@ -55,11 +55,11 @@ public class GearForPlanetsX {
 
     private double rpq(int q) {
         int i = size;
-        double rp = 0, divide;
+        double rp = 0, x;
         while (i > q) {
-            divide = i - q - 1;
-            divide = (divide == 0) ? 1 : divide;
-            rp = (rp + r.get(i - 1) * Math.pow(step, i - q - 1)) / divide;
+            x = i - q - 1;
+            x = (x== 0) ? 1 :x;
+            rp = (rp + r.get(i - 1) * Math.pow(step, i - q - 1)) / x;
             i--;
         }
         return rp;
